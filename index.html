@@ -10,7 +10,6 @@
         body {
             font-family: 'Inter', sans-serif;
         }
-        /* Simple spinner animation */
         .spinner {
             border: 4px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
@@ -44,11 +43,20 @@
             <button data-mood="bhojpuri" class="mood-btn bg-teal-500 hover:bg-teal-600 focus:ring-teal-400">🎶 Bhojpuri</button>
             <button data-mood="punjabi" class="mood-btn bg-indigo-500 hover:bg-indigo-600 focus:ring-indigo-400">🕺 Punjabi</button>
             <button data-mood="haryanvi" class="mood-btn bg-lime-500 hover:bg-lime-600 focus:ring-lime-400">💃 Haryanvi</button>
-            </div>
+        </div>
 
         <div id="recommendations" class="hidden">
-            <h2 class="text-2xl font-semibold mb-4 border-t border-gray-700 pt-6">Editor's Picks</h2>
-            <div id="song-list" class="space-y-3 text-left max-h-60 overflow-y-auto pr-2">
+            
+            <div id="singer-selection-container" class="hidden">
+                 <h2 class="text-2xl font-semibold mb-4 border-t border-gray-700 pt-6">Select an Artist</h2>
+                 <div id="singer-list" class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                     </div>
+            </div>
+
+            <div id="song-list-container" class="hidden">
+                <h2 class="text-2xl font-semibold mb-4 border-t border-gray-700 pt-6">Editor's Picks</h2>
+                <div id="song-list" class="space-y-3 text-left max-h-60 overflow-y-auto pr-2">
+                </div>
             </div>
             
             <div class="text-center mt-6">
@@ -68,7 +76,7 @@
     </div>
 
     <style>
-        .mood-btn {
+        .mood-btn, .singer-btn { /* Applied shared styles */
             padding: 12px;
             border-radius: 12px;
             font-weight: 600;
@@ -79,231 +87,224 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             border: 2px solid transparent;
         }
-        .mood-btn:hover {
+        .mood-btn:hover, .singer-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
-        .mood-btn:focus {
+        .mood-btn:focus, .singer-btn:focus {
             ring-4 ring-opacity-50;
         }
     </style>
 
-    <script>
-        // --- DATA ---
-        const songDatabase = {
-            happy: [
-                { title: "Gallan Goodiyaan", artist: "Yashita Sharma, Manish Kumar Tipu" },
-                { title: "Mauja Hi Mauja", artist: "Mika Singh" },
-                { title: "Badtameez Dil", artist: "Benny Dayal, Shefali Alvares" },
-                { title: "Kar Gayi Chull", artist: "Badshah, Fazilpuria, Sukriti Kakar, Neha Kakkar" },
-                { title: "London Thumakda", artist: "Labh Janjua, Sonu Kakkar, Neha Kakkar" },
-                { title: "Ghungroo", artist: "Arijit Singh, Shilpa Rao" },
-                { title: "Dil Dhadakne Do", artist: "Priyanka Chopra, Farhan Akhtar" },
-            ],
-            sad: [
-                { title: "Tujhe Bhula Diya", artist: "Mohit Chauhan, Shekhar Ravjiani, Shruti Pathak" },
-                { title: "Kabira", artist: "Tochi Raina, Rekha Bhardwaj" },
-                { title: "Channa Mereya", artist: "Arijit Singh" },
-                { title: "Agar Tum Saath Ho", artist: "Alka Yagnik, Arijit Singh" },
-                { title: "Jag Soona Soona Lage", artist: "Rahat Fateh Ali Khan, Richa Sharma" },
-                { title: "Maai Teri Chunariya", artist: "Arijit Singh" },
-                { title: "Tadap Tadap Ke", artist: "KK, Dominique Cerejo" },
-            ],
-            energetic: [
-                { title: "Malhari", artist: "Vishal Dadlani" },
-                { title: "Zinda", artist: "Siddharth Mahadevan" },
-                { title: "Chak De! India", artist: "Sukhwinder Singh, Salim-Sulaiman" },
-                { title: "Dangal", artist: "Daler Mehndi" },
-                { title: "Jai Ho", artist: "A. R. Rahman, Sukhwinder Singh" },
-                { title: "India Waale", artist: "Vishal Dadlani, K.K., Shankar Mahadevan, Neeti Mohan" },
-                { title: "Rang De Basanti", artist: "Daler Mehndi, K. S. Chithra" },
-            ],
-            calm: [
-                { title: "Iktara", artist: "Kavita Seth, Amitabh Bhattacharya" },
-                { title: "Sham", artist: "Amit Trivedi, Nikhil D'Souza" },
-                { title: "Kun Faya Kun", artist: "A. R. Rahman, Javed Ali, Mohit Chauhan" },
-                { title: "Moh Moh Ke Dhaage", artist: "Papon, Monali Thakur" },
-                { title: "Tu Hi Re", artist: "Hariharan, Kavita Krishnamurthy" },
-                { title: "O Saathi Re", artist: "Arijit Singh" },
-                { title: "Soch Na Sake", artist: "Arijit Singh, Tulsi Kumar" },
-            ],
-            romantic: [
-                { title: "Tujh Mein Rab Dikhta Hai", artist: "Roop Kumar Rathod" },
-                { title: "Tum Se Hi", artist: "Mohit Chauhan" },
-                { title: "Pehla Nasha", artist: "Udit Narayan, Sadhana Sargam" },
-                { title: "Raabta", artist: "Arijit Singh" },
-                { title: "Gerua", artist: "Arijit Singh, Antara Mitra" },
-                { title: "Tum Hi Ho", artist: "Arijit Singh" },
-                { title: "Zara Zara", artist: "Bombay Jayashri" },
-            ],
-            workout: [
-                { title: "Sultan (Title Track)", artist: "Sukhwinder Singh, Shadab Faridi" },
-                { title: "Bhaag Milkha Bhaag", artist: "Arif Lohar" },
-                { title: "Ziddi Dil", artist: "Vishal Dadlani" },
-                { title: "Brothers Anthem", artist: "Ajay-Atul, Vishal Dadlani" },
-                { title: "Dhaakad", artist: "Raftaar" },
-                { title: "Apna Time Aayega", artist: "Ranveer Singh, Divine" },
-                { title: "Get Ready To Fight", artist: "Benny Dayal, Siddharth Basrur" }
-            ],
+   <script>
+    // --- DATA (HEAVILY RESTRUCTURED) ---
+    const songDatabase = {
+        happy: [ { title: "Gallan Goodiyaan", artist: "Yashita Sharma, Manish Kumar Tipu" }, { title: "Mauja Hi Mauja", artist: "Mika Singh" }, { title: "Badtameez Dil", artist: "Benny Dayal, Shefali Alvares" } ],
+        sad: [ { title: "Tujhe Bhula Diya", artist: "Mohit Chauhan, Shekhar Ravjiani, Shruti Pathak" }, { title: "Kabira", artist: "Tochi Raina, Rekha Bhardwaj" }, { title: "Channa Mereya", artist: "Arijit Singh" } ],
+        energetic: [ { title: "Malhari", artist: "Vishal Dadlani" }, { title: "Zinda", artist: "Siddharth Mahadevan" }, { title: "Chak De! India", artist: "Sukhwinder Singh, Salim-Sulaiman" } ],
+        calm: [ { title: "Iktara", artist: "Kavita Seth, Amitabh Bhattacharya" }, { title: "Sham", artist: "Amit Trivedi, Nikhil D'Souza" }, { title: "Kun Faya Kun", artist: "A. R. Rahman, Javed Ali, Mohit Chauhan" } ],
+        romantic: [ { title: "Tujh Mein Rab Dikhta Hai", artist: "Roop Kumar Rathod" }, { title: "Tum Se Hi", artist: "Mohit Chauhan" }, { title: "Pehla Nasha", artist: "Udit Narayan, Sadhana Sargam" } ],
+        workout: [ { title: "Sultan (Title Track)", artist: "Sukhwinder Singh, Shadab Faridi" }, { title: "Bhaag Milkha Bhaag", artist: "Arif Lohar" }, { title: "Ziddi Dil", artist: "Vishal Dadlani" } ],
+        
+        bhojpuri: {
+            _type: 'language',
+            singers: {
+                pawanSingh: {
+                    displayName: 'Pawan Singh',
+                    songs: [ { title: "Lollipop Lagelu", artist: "Pawan Singh" }, { title: "Pudina Ae Haseena", artist: "Pawan Singh, Anupama Yadav" }, { title: "Le Lo Pudina", artist: "Pawan Singh, Shilpi Raj" } ]
+                },
+                neelkamal: {
+                    displayName: 'Neelkamal Singh',
+                    songs: [ { title: "Laal Ghaghra", artist: "Neelkamal Singh, Shilpi Raj" }, { title: "Jaan Tohare Naam", artist: "Neelkamal Singh" }, { title: "Garai Machhari", artist: "Neelkamal Singh, Shilpi Raj" } ]
+                },
+                khesariLal: {
+                    displayName: 'Khesari Lal',
+                    songs: [ { title: "Nathuniya", artist: "Khesari Lal Yadav, Priyanka Singh" }, { title: "Le Le Aayi Coca Cola", artist: "Khesari Lal Yadav, Shilpi Raj" }, { title: "Bullet Pa Jija", artist: "Khesari Lal Yadav, Shilpi Raj" } ]
+                }
+            }
+        },
+        punjabi: {
+            _type: 'language',
+            singers: {
+                shubh: {
+                    displayName: 'Shubh',
+                    songs: [ { title: "Still Rollin'", artist: "Shubh" }, { title: "Cheques", artist: "Shubh" }, { title: "No Love", artist: "Shubh, Ikky" } ]
+                },
+                honeySingh: {
+                    displayName: 'Yo Yo Honey Singh',
+                    songs: [ { title: "Brown Rang", artist: "Yo Yo Honey Singh" }, { title: "Lungi Dance", artist: "Yo Yo Honey Singh" }, { title: "Blue Eyes", artist: "Yo Yo Honey Singh" } ]
+                },
+                apDhillon: {
+                    displayName: 'AP Dhillon',
+                    songs: [ { title: "Brown Munde", artist: "AP Dhillon, Gurinder Gill" }, { title: "Insane", artist: "AP Dhillon, Shinda Kahlon" }, { title: "Excuses", artist: "AP Dhillon, Gurinder Gill" } ]
+                }
+            }
+        },
+        haryanvi: {
+            _type: 'language',
+            singers: {
+                gulzaar: {
+                    displayName: 'Gulzaar Chhaniwala',
+                    songs: [ { title: "Badnam", artist: "Gulzaar Chhaniwala" }, { title: "Kasoote", artist: "Gulzaar Chhaniwala" }, { title: "Gypsy", artist: "G. D. Kaur" } ]
+                },
+                masoomSharma: {
+                    displayName: 'Masoom Sharma',
+                    songs: [ { title: "Kothe Upar Kothri", artist: "Masoom Sharma, Manisha Sharma" }, { title: "English Medium", artist: "Masoom Sharma, Annu Kadyan" }, { title: "2 Numbari", artist: "Masoom Sharma, Manisha Sharma" } ]
+                },
+                dilerKharkiya: {
+                    displayName: 'Diler Kharakiya',
+                    songs: [ { title: "Moto", artist: "Diler Kharkiya, Ajay Hooda" }, { title: "52 Gaj Ka Daman", artist: "Renuka Panwar" }, { title: "Chatak Matak", artist: "Renuka Panwar" } ]
+                }
+            }
+        }
+    };
+    
+    // --- DOM ELEMENTS ---
+    const moodButtons = document.querySelectorAll('.mood-btn');
+    const recommendationsDiv = document.getElementById('recommendations');
+    
+    const singerSelectionContainer = document.getElementById('singer-selection-container');
+    const singerListDiv = document.getElementById('singer-list');
 
-            // --- New language playlists added below ---
-            bhojpuri: [
-                { title: "Lollipop Lagelu", artist: "Pawan Singh" },
-                { title: "Rinkiya Ke Papa", artist: "Manoj Tiwari" },
-                { title: "Raja Tani Jai Na Bahariya", artist: "Rakesh Mishra" },
-                { title: "Pudina Ae Haseena", artist: "Pawan Singh, Anupama Yadav" },
-                { title: "Bullet Pa Jija", artist: "Khesari Lal Yadav, Shilpi Raj" },
-                { title: "Nathuniya", artist: "Khesari Lal Yadav, Priyanka Singh" },
-            ],
-            punjabi: [
-                { title: "Brown Munde", artist: "AP Dhillon, Gminxr, Gurinder Gill" },
-                { title: "Lover", artist: "Diljit Dosanjh" },
-                { title: "295", artist: "Sidhu Moose Wala" },
-                { title: "Bijlee Bijlee", artist: "Harrdy Sandhu" },
-                { title: "Insane", artist: "AP Dhillon, Shinda Kahlon" },
-                { title: "Challa", artist: "Gurdas Maan" },
-                { title: "Laung Laachi", artist: "Mannat Noor" },
-            ],
-            haryanvi: [
-                { title: "52 Gaj Ka Daman", artist: "Renuka Panwar, Aman Jaji" },
-                { title: "Teri Aakhya Ka Yo Kajal", artist: "DC Madana" },
-                { title: "Badnam", artist: "Gulzaar Chhaniwala" },
-                { title: "Gypsy", artist: "G. D. Kaur" },
-                { title: "Moto", artist: "Diler Kharkiya, Ajay Hooda" },
-                { title: "Chatak Matak", artist: "Renuka Panwar" },
-            ]
-            // --- End of new playlists ---
+    const songListContainer = document.getElementById('song-list-container');
+    const songListDiv = document.getElementById('song-list');
+    
+    const generateMoreBtn = document.getElementById('generate-more');
+    const apiResultsDiv = document.getElementById('api-results');
+    const apiSongListDiv = document.getElementById('api-song-list');
+    const spinner = document.getElementById('spinner');
+    const generateText = document.getElementById('generate-text');
+    
+    let currentMood = '';
+
+    // --- FUNCTIONS ---
+    
+    function renderSongs(songs, container) {
+        container.innerHTML = '';
+        if (songs && songs.length > 0) {
+            songs.forEach(song => {
+                const searchQuery = `${song.title} ${song.artist}`;
+                const youtubeMusicUrl = `https://music.youtube.com/search?q=${encodeURIComponent(searchQuery)}`;
+                const linkElement = document.createElement('a');
+                linkElement.href = youtubeMusicUrl;
+                linkElement.target = '_blank';
+                linkElement.rel = 'noopener noreferrer';
+                const songElement = document.createElement('div');
+                songElement.className = 'bg-gray-700 p-4 rounded-lg flex items-center shadow-md transition-transform transform hover:scale-105 cursor-pointer';
+                const icon = `<svg class="w-6 h-6 mr-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"></path></svg>`;
+                songElement.innerHTML = `${icon}<div><p class="font-semibold text-white">${song.title}</p><p class="text-sm text-gray-400">${song.artist}</p></div>`;
+                linkElement.appendChild(songElement);
+                container.appendChild(linkElement);
+            });
+        } else {
+            container.innerHTML = '<p class="text-gray-400 text-center">No songs found.</p>';
+        }
+    }
+
+    function renderSingers(languageKey, singers) {
+        singerListDiv.innerHTML = '';
+        for (const singerKey in singers) {
+            const singer = singers[singerKey];
+            const button = document.createElement('button');
+            button.className = 'singer-btn bg-gray-600 hover:bg-gray-700 focus:ring-gray-500';
+            button.textContent = singer.displayName;
+            button.dataset.languageKey = languageKey;
+            button.dataset.singerKey = singerKey;
+            singerListDiv.appendChild(button);
+        }
+    }
+
+    // --- EVENT LISTENERS ---
+
+    moodButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            currentMood = button.dataset.mood;
+            const selection = songDatabase[currentMood];
+            
+            recommendationsDiv.classList.remove('hidden');
+            apiResultsDiv.classList.add('hidden');
+            apiSongListDiv.innerHTML = '';
+
+            if (selection._type === 'language') {
+                singerSelectionContainer.classList.remove('hidden');
+                songListContainer.classList.add('hidden');
+                renderSingers(currentMood, selection.singers);
+            } else {
+                singerSelectionContainer.classList.add('hidden');
+                songListContainer.classList.remove('hidden');
+                renderSongs(selection, songListDiv);
+            }
+        });
+    });
+
+    singerListDiv.addEventListener('click', (event) => {
+        const button = event.target.closest('.singer-btn');
+        if (!button) return;
+
+        const { languageKey, singerKey } = button.dataset;
+        const songs = songDatabase[languageKey].singers[singerKey].songs;
+        
+        songListContainer.classList.remove('hidden');
+        renderSongs(songs, songListDiv);
+    });
+    
+    generateMoreBtn.addEventListener('click', () => {
+        if (currentMood) {
+            getRecommendationsFromAPI(currentMood);
+        }
+    });
+
+    // THIS IS THE CORRECTED AND COMPLETE FUNCTION
+    async function getRecommendationsFromAPI(mood) {
+        // UI updates for loading state
+        generateMoreBtn.disabled = true;
+        spinner.classList.remove('hidden');
+        generateText.textContent = 'Generating...';
+        apiResultsDiv.classList.add('hidden');
+
+        const apiKey = "AIzaSyAlGcBjfOulb2JjLlvVk6GKgdSTXALUuRY"; // IMPORTANT: Replace with your actual API key.
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+        
+        const prompt = `Provide a list of 5 popular Indian songs for a "${mood}" theme or language. The songs can be from Bollywood or other Indian genres as specified. Format the response as a valid JSON array where each object has only a "title" and "artist" key. Do not include any other text or markdown formatting.`;
+
+        const payload = {
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: {
+                responseMimeType: "application/json",
+            }
         };
         
-        // --- DOM ELEMENTS ---
-        const moodButtons = document.querySelectorAll('.mood-btn');
-        const recommendationsDiv = document.getElementById('recommendations');
-        const songListDiv = document.getElementById('song-list');
-        const generateMoreBtn = document.getElementById('generate-more');
-        const apiResultsDiv = document.getElementById('api-results');
-        const apiSongListDiv = document.getElementById('api-song-list');
-        const spinner = document.getElementById('spinner');
-        const generateText = document.getElementById('generate-text');
-        
-        let currentMood = '';
-
-        // --- FUNCTIONS ---
-        
-        /**
-         * Renders a list of songs into a specified container.
-         * @param {Array<Object>} songs - Array of song objects {title, artist}.
-         * @param {HTMLElement} container - The DOM element to render into.
-         */
-        function renderSongs(songs, container) {
-            container.innerHTML = ''; // Clear previous list
-            if (songs && songs.length > 0) {
-                songs.forEach(song => {
-                    const searchQuery = `${song.title} ${song.artist}`;
-                    const youtubeMusicUrl = `https://music.youtube.com/search?q=${encodeURIComponent(searchQuery)}`;
-
-                    const linkElement = document.createElement('a');
-                    linkElement.href = youtubeMusicUrl;
-                    linkElement.target = '_blank';
-                    linkElement.rel = 'noopener noreferrer';
-
-                    const songElement = document.createElement('div');
-                    songElement.className = 'bg-gray-700 p-4 rounded-lg flex items-center shadow-md transition-transform transform hover:scale-105 cursor-pointer'; 
-                    
-                    const icon = `<svg class="w-6 h-6 mr-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"></path></svg>`;
-                    
-                    songElement.innerHTML = `
-                        ${icon}
-                        <div>
-                            <p class="font-semibold text-white">${song.title}</p>
-                            <p class="text-sm text-gray-400">${song.artist}</p>
-                        </div>`;
-                    
-                    linkElement.appendChild(songElement);
-                    container.appendChild(linkElement);
-                });
-            } else {
-                container.innerHTML = '<p class="text-gray-400 text-center">No songs found.</p>';
-            }
-        }
-
-
-        /**
-         * Fetches song recommendations from the Gemini API.
-         * @param {string} mood - The mood to get recommendations for.
-         */
-        async function getRecommendationsFromAPI(mood) {
-            generateMoreBtn.disabled = true;
-            spinner.classList.remove('hidden');
-            generateText.textContent = 'Generating...';
-            apiResultsDiv.classList.add('hidden');
-
-            const apiKey = "AIzaSyAlGcBjfOulb2JjLlvVk6GKgdSTXALUuRY"; // IMPORTANT: Replace with your actual API key.
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
-            
-            // Modified prompt to handle both moods and languages
-            const prompt = `Provide a list of 5 popular Indian songs for a "${mood}" theme or language. The songs can be from Bollywood or other Indian genres as specified. Format the response as a valid JSON array where each object has only a "title" and "artist" key. Do not include any other text or markdown formatting.`;
-
-            const payload = {
-                contents: [{ parts: [{ text: prompt }] }],
-                generationConfig: {
-                    responseMimeType: "application/json",
-                }
-            };
-            
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`API error! status: ${response.status}`);
-                }
-
-                const result = await response.json();
-                
-                if (result.candidates?.[0]?.content?.parts?.[0]?.text) {
-                    const jsonText = result.candidates[0].content.parts[0].text;
-                    const songs = JSON.parse(jsonText);
-                    renderSongs(songs, apiSongListDiv);
-                    apiResultsDiv.classList.remove('hidden');
-                } else {
-                    throw new Error("Invalid response structure from API.");
-                }
-
-            } catch (error) {
-                console.error("Failed to fetch from Gemini API:", error);
-                apiSongListDiv.innerHTML = `<p class="text-red-400 text-center">Could not generate songs. Please try again later.</p>`;
-                apiResultsDiv.classList.remove('hidden');
-            } finally {
-                generateMoreBtn.disabled = false;
-                spinner.classList.add('hidden');
-                generateText.textContent = 'Generate Fresh Playlist';
-            }
-        }
-
-        // --- EVENT LISTENERS ---
-        moodButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                currentMood = button.dataset.mood;
-                const songs = songDatabase[currentMood];
-                
-                renderSongs(songs, songListDiv);
-                
-                recommendationsDiv.classList.remove('hidden');
-                apiResultsDiv.classList.add('hidden');
-                apiSongListDiv.innerHTML = '';
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
             });
-        });
-        
-        generateMoreBtn.addEventListener('click', () => {
-            if (currentMood) {
-                getRecommendationsFromAPI(currentMood);
+
+            if (!response.ok) {
+                throw new Error(`API error! status: ${response.status}`);
             }
-        });
 
-    </script>
+            const result = await response.json();
+            
+            if (result.candidates?.[0]?.content?.parts?.[0]?.text) {
+                const jsonText = result.candidates[0].content.parts[0].text;
+                const songs = JSON.parse(jsonText);
+                renderSongs(songs, apiSongListDiv);
+                apiResultsDiv.classList.remove('hidden');
+            } else {
+                throw new Error("Invalid response structure from API.");
+            }
 
-</body>
-</html>
+        } catch (error) {
+            console.error("Failed to fetch from Gemini API:", error);
+            apiSongListDiv.innerHTML = `<p class="text-red-400 text-center">Could not generate songs. Please try again later.</p>`;
+            apiResultsDiv.classList.remove('hidden');
+        } finally {
+            // Restore button state
+            generateMoreBtn.disabled = false;
+            spinner.classList.add('hidden');
+            generateText.textContent = 'Generate Fresh Playlist';
+        }
+    }
+</script>
