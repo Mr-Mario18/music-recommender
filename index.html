@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- BY SOURABH PANDEY -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moodics - Indian Songs Recommender </title>
+    <title>Moodics - Indian Songs Recommender</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -29,13 +28,11 @@
 <body class="bg-gray-900 text-white flex items-center justify-center min-h-screen p-4">
 
     <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl w-full max-w-lg mx-auto">
-        <!-- Header -->
         <div class="text-center">
             <h1 class="text-3xl font-bold mb-2">Moodics</h1>
             <p class="text-gray-400 mb-6">Select your mood for a curated Indian playlist.</p>
         </div>
 
-        <!-- Mood Selection Buttons -->
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
             <button data-mood="happy" class="mood-btn bg-yellow-500 hover:bg-yellow-600 focus:ring-yellow-400">😊 Happy</button>
             <button data-mood="sad" class="mood-btn bg-blue-500 hover:bg-blue-600 focus:ring-blue-400">😢 Sad</button>
@@ -45,29 +42,23 @@
             <button data-mood="workout" class="mood-btn bg-orange-500 hover:bg-orange-600 focus:ring-orange-400">💪 Workout</button>
         </div>
 
-        <!-- Recommendations Section -->
         <div id="recommendations" class="hidden">
-            <!-- Curated Playlist -->
             <h2 class="text-2xl font-semibold mb-4 border-t border-gray-700 pt-6">Editor's Picks</h2>
             <div id="song-list" class="space-y-3 text-left max-h-60 overflow-y-auto pr-2">
-                <!-- Curated song items will be injected here -->
-            </div>
+                </div>
             
-            <!-- API Generation Button -->
             <div class="text-center mt-6">
                  <button id="generate-more" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-opacity-50 flex items-center justify-center w-full sm:w-auto mx-auto disabled:opacity-50 disabled:cursor-not-allowed">
-                    <svg id="sparkle-icon" class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.293 2.293a1 1 0 010 1.414L10 16l-4 4 4-4 5.293 5.293a1 1 0 001.414 0L21 18m-5-5l2.293-2.293a1 1 0 000-1.414L16 7l-4 4 4 4z"></path></svg>
-                    <span id="generate-text">Generate Fresh Playlist</span>
-                    <div id="spinner" class="spinner hidden ml-2"></div>
-                </button>
+                     <svg id="sparkle-icon" class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.293 2.293a1 1 0 010 1.414L10 16l-4 4 4-4 5.293 5.293a1 1 0 001.414 0L21 18m-5-5l2.293-2.293a1 1 0 000-1.414L16 7l-4 4 4 4z"></path></svg>
+                     <span id="generate-text">Generate Fresh Playlist</span>
+                     <div id="spinner" class="spinner hidden ml-2"></div>
+                 </button>
             </div>
 
-             <!-- API Generated Playlist -->
-            <div id="api-results" class="hidden mt-6">
+             <div id="api-results" class="hidden mt-6">
                 <h2 class="text-2xl font-semibold mb-4 border-t border-gray-700 pt-6">Freshly Generated For You</h2>
                 <div id="api-song-list" class="space-y-3 text-left max-h-60 overflow-y-auto pr-2">
-                    <!-- API song items will be injected here -->
-                </div>
+                    </div>
             </div>
         </div>
     </div>
@@ -175,21 +166,44 @@
             container.innerHTML = ''; // Clear previous list
             if (songs && songs.length > 0) {
                 songs.forEach(song => {
+                    // --- MODIFICATION START ---
+                    // 1. Create the search URL for YouTube Music.
+                    // encodeURIComponent ensures characters like '&' or spaces are handled correctly in the URL.
+                    const searchQuery = `${song.title} ${song.artist}`;
+                    const youtubeMusicUrl = `https://music.youtube.com/search?q=${encodeURIComponent(searchQuery)}`;
+
+                    // 2. Create an anchor (<a>) element to make the whole item clickable.
+                    const linkElement = document.createElement('a');
+                    linkElement.href = youtubeMusicUrl;
+                    linkElement.target = '_blank'; // Opens the link in a new tab.
+                    linkElement.rel = 'noopener noreferrer'; // Security best practice for new tabs.
+
+                    // 3. Create the div for song info (this is your original 'songElement').
                     const songElement = document.createElement('div');
-                    songElement.className = 'bg-gray-700 p-4 rounded-lg flex items-center shadow-md transition-transform transform hover:scale-105';
+                    // Added 'cursor-pointer' to visually indicate it's clickable.
+                    songElement.className = 'bg-gray-700 p-4 rounded-lg flex items-center shadow-md transition-transform transform hover:scale-105 cursor-pointer'; 
+                    
                     const icon = `<svg class="w-6 h-6 mr-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"></path></svg>`;
+                    
                     songElement.innerHTML = `
                         ${icon}
                         <div>
                             <p class="font-semibold text-white">${song.title}</p>
                             <p class="text-sm text-gray-400">${song.artist}</p>
                         </div>`;
-                    container.appendChild(songElement);
+                    
+                    // 4. Put the song info div inside the clickable link element.
+                    linkElement.appendChild(songElement);
+
+                    // 5. Add the complete, clickable link element to the container.
+                    container.appendChild(linkElement);
+                    // --- MODIFICATION END ---
                 });
             } else {
                 container.innerHTML = '<p class="text-gray-400 text-center">No songs found.</p>';
             }
         }
+
 
         /**
          * Fetches song recommendations from the Gemini API.
@@ -202,26 +216,15 @@
             generateText.textContent = 'Generating...';
             apiResultsDiv.classList.add('hidden');
 
-            const apiKey = "AIzaSyAlGcBjfOulb2JjLlvVk6GKgdSTXALUuRY"; // API key will be injected by the environment.
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+            const apiKey = "AIzaSyAlGcBjfOulb2JjLlvVk6GKgdSTXALUuRY"; // IMPORTANT: Replace with your actual API key.
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
             
-            const prompt = `Provide a list of 10 Indian songs for a "${mood}" mood. The songs can be from Bollywood or other Indian genres. Format the response as a JSON array where each object has a "title" and "artist" key.`;
+            const prompt = `Provide a list of 5 popular Indian songs for a "${mood}" mood. The songs can be from Bollywood or other Indian genres. Format the response as a valid JSON array where each object has only a "title" and "artist" key. Do not include any other text or markdown formatting.`;
 
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
                 generationConfig: {
                     responseMimeType: "application/json",
-                    responseSchema: {
-                        type: "ARRAY",
-                        items: {
-                            type: "OBJECT",
-                            properties: {
-                                "title": { "type": "STRING" },
-                                "artist": { "type": "STRING" }
-                            },
-                             "required": ["title", "artist"]
-                        }
-                    }
                 }
             };
             
@@ -285,4 +288,3 @@
 
 </body>
 </html>
-
