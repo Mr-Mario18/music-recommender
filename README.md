@@ -2,6 +2,8 @@ Moodics 🎵
 
 A responsive and user-friendly web application that provides Indian music recommendations tailored to your current mood. This project leverages a curated playlist for instant suggestions and integrates the Google Gemini API to dynamically generate fresh song lists on demand.
 
+https://mr-mario18.github.io/music-recommender/
+
 ✨ Features
   • Mood-Based Suggestions: Select from 6 moods (Happy, Sad, Energetic, Calm, Romantic, Workout) to get a tailored playlist.
 
