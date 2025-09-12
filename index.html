@@ -30,7 +30,7 @@
     <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl w-full max-w-lg mx-auto">
         <div class="text-center">
             <h1 class="text-3xl font-bold mb-2">Moodics</h1>
-            <p class="text-gray-400 mb-6">Select your mood for a curated Indian playlist.</p>
+            <p class="text-gray-400 mb-6">Select your mood or language for a curated Indian playlist.</p>
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
@@ -40,12 +40,16 @@
             <button data-mood="calm" class="mood-btn bg-green-500 hover:bg-green-600 focus:ring-green-400">🧘 Calm</button>
             <button data-mood="romantic" class="mood-btn bg-pink-500 hover:bg-pink-600 focus:ring-pink-400">❤️ Romantic</button>
             <button data-mood="workout" class="mood-btn bg-orange-500 hover:bg-orange-600 focus:ring-orange-400">💪 Workout</button>
-        </div>
+            
+            <button data-mood="bhojpuri" class="mood-btn bg-teal-500 hover:bg-teal-600 focus:ring-teal-400">🎶 Bhojpuri</button>
+            <button data-mood="punjabi" class="mood-btn bg-indigo-500 hover:bg-indigo-600 focus:ring-indigo-400">🕺 Punjabi</button>
+            <button data-mood="haryanvi" class="mood-btn bg-lime-500 hover:bg-lime-600 focus:ring-lime-400">💃 Haryanvi</button>
+            </div>
 
         <div id="recommendations" class="hidden">
             <h2 class="text-2xl font-semibold mb-4 border-t border-gray-700 pt-6">Editor's Picks</h2>
             <div id="song-list" class="space-y-3 text-left max-h-60 overflow-y-auto pr-2">
-                </div>
+            </div>
             
             <div class="text-center mt-6">
                  <button id="generate-more" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-opacity-50 flex items-center justify-center w-full sm:w-auto mx-auto disabled:opacity-50 disabled:cursor-not-allowed">
@@ -58,7 +62,7 @@
              <div id="api-results" class="hidden mt-6">
                 <h2 class="text-2xl font-semibold mb-4 border-t border-gray-700 pt-6">Freshly Generated For You</h2>
                 <div id="api-song-list" class="space-y-3 text-left max-h-60 overflow-y-auto pr-2">
-                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -140,7 +144,35 @@
                 { title: "Dhaakad", artist: "Raftaar" },
                 { title: "Apna Time Aayega", artist: "Ranveer Singh, Divine" },
                 { title: "Get Ready To Fight", artist: "Benny Dayal, Siddharth Basrur" }
+            ],
+
+            // --- New language playlists added below ---
+            bhojpuri: [
+                { title: "Lollipop Lagelu", artist: "Pawan Singh" },
+                { title: "Rinkiya Ke Papa", artist: "Manoj Tiwari" },
+                { title: "Raja Tani Jai Na Bahariya", artist: "Rakesh Mishra" },
+                { title: "Pudina Ae Haseena", artist: "Pawan Singh, Anupama Yadav" },
+                { title: "Bullet Pa Jija", artist: "Khesari Lal Yadav, Shilpi Raj" },
+                { title: "Nathuniya", artist: "Khesari Lal Yadav, Priyanka Singh" },
+            ],
+            punjabi: [
+                { title: "Brown Munde", artist: "AP Dhillon, Gminxr, Gurinder Gill" },
+                { title: "Lover", artist: "Diljit Dosanjh" },
+                { title: "295", artist: "Sidhu Moose Wala" },
+                { title: "Bijlee Bijlee", artist: "Harrdy Sandhu" },
+                { title: "Insane", artist: "AP Dhillon, Shinda Kahlon" },
+                { title: "Challa", artist: "Gurdas Maan" },
+                { title: "Laung Laachi", artist: "Mannat Noor" },
+            ],
+            haryanvi: [
+                { title: "52 Gaj Ka Daman", artist: "Renuka Panwar, Aman Jaji" },
+                { title: "Teri Aakhya Ka Yo Kajal", artist: "DC Madana" },
+                { title: "Badnam", artist: "Gulzaar Chhaniwala" },
+                { title: "Gypsy", artist: "G. D. Kaur" },
+                { title: "Moto", artist: "Diler Kharkiya, Ajay Hooda" },
+                { title: "Chatak Matak", artist: "Renuka Panwar" },
             ]
+            // --- End of new playlists ---
         };
         
         // --- DOM ELEMENTS ---
@@ -166,21 +198,15 @@
             container.innerHTML = ''; // Clear previous list
             if (songs && songs.length > 0) {
                 songs.forEach(song => {
-                    // --- MODIFICATION START ---
-                    // 1. Create the search URL for YouTube Music.
-                    // encodeURIComponent ensures characters like '&' or spaces are handled correctly in the URL.
                     const searchQuery = `${song.title} ${song.artist}`;
                     const youtubeMusicUrl = `https://music.youtube.com/search?q=${encodeURIComponent(searchQuery)}`;
 
-                    // 2. Create an anchor (<a>) element to make the whole item clickable.
                     const linkElement = document.createElement('a');
                     linkElement.href = youtubeMusicUrl;
-                    linkElement.target = '_blank'; // Opens the link in a new tab.
-                    linkElement.rel = 'noopener noreferrer'; // Security best practice for new tabs.
+                    linkElement.target = '_blank';
+                    linkElement.rel = 'noopener noreferrer';
 
-                    // 3. Create the div for song info (this is your original 'songElement').
                     const songElement = document.createElement('div');
-                    // Added 'cursor-pointer' to visually indicate it's clickable.
                     songElement.className = 'bg-gray-700 p-4 rounded-lg flex items-center shadow-md transition-transform transform hover:scale-105 cursor-pointer'; 
                     
                     const icon = `<svg class="w-6 h-6 mr-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"></path></svg>`;
@@ -192,12 +218,8 @@
                             <p class="text-sm text-gray-400">${song.artist}</p>
                         </div>`;
                     
-                    // 4. Put the song info div inside the clickable link element.
                     linkElement.appendChild(songElement);
-
-                    // 5. Add the complete, clickable link element to the container.
                     container.appendChild(linkElement);
-                    // --- MODIFICATION END ---
                 });
             } else {
                 container.innerHTML = '<p class="text-gray-400 text-center">No songs found.</p>';
@@ -210,7 +232,6 @@
          * @param {string} mood - The mood to get recommendations for.
          */
         async function getRecommendationsFromAPI(mood) {
-            // UI updates for loading state
             generateMoreBtn.disabled = true;
             spinner.classList.remove('hidden');
             generateText.textContent = 'Generating...';
@@ -219,7 +240,8 @@
             const apiKey = "AIzaSyAlGcBjfOulb2JjLlvVk6GKgdSTXALUuRY"; // IMPORTANT: Replace with your actual API key.
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
             
-            const prompt = `Provide a list of 5 popular Indian songs for a "${mood}" mood. The songs can be from Bollywood or other Indian genres. Format the response as a valid JSON array where each object has only a "title" and "artist" key. Do not include any other text or markdown formatting.`;
+            // Modified prompt to handle both moods and languages
+            const prompt = `Provide a list of 5 popular Indian songs for a "${mood}" theme or language. The songs can be from Bollywood or other Indian genres as specified. Format the response as a valid JSON array where each object has only a "title" and "artist" key. Do not include any other text or markdown formatting.`;
 
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
@@ -255,7 +277,6 @@
                 apiSongListDiv.innerHTML = `<p class="text-red-400 text-center">Could not generate songs. Please try again later.</p>`;
                 apiResultsDiv.classList.remove('hidden');
             } finally {
-                // Restore button state
                 generateMoreBtn.disabled = false;
                 spinner.classList.add('hidden');
                 generateText.textContent = 'Generate Fresh Playlist';
@@ -268,10 +289,8 @@
                 currentMood = button.dataset.mood;
                 const songs = songDatabase[currentMood];
                 
-                // Render the curated list
                 renderSongs(songs, songListDiv);
                 
-                // Show the recommendations section and hide API results from previous selections
                 recommendationsDiv.classList.remove('hidden');
                 apiResultsDiv.classList.add('hidden');
                 apiSongListDiv.innerHTML = '';
