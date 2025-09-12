@@ -1,4 +1,4 @@
-Mood Melody 🎵
+Moodics 🎵
 
 A responsive and user-friendly web application that provides Indian music recommendations tailored to your current mood. This project leverages a curated playlist for instant suggestions and integrates the Google Gemini API to dynamically generate fresh song lists on demand.
 
