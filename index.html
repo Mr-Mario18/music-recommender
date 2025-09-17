@@ -66,30 +66,30 @@
             <div class="flex-grow">
                  <h2 class="text-lg font-semibold text-gray-300 mb-4">1. Select Your Mood or Language</h2>
                  <div class="grid grid-cols-3 gap-3">
-                    <button data-mood="happy" class="mood-btn">😊<span class="hidden sm:inline"> Happy</span></button>
-                    <button data-mood="sad" class="mood-btn">😢<span class="hidden sm:inline"> Sad</span></button>
-                    <button data-mood="energetic" class="mood-btn">⚡<span class="hidden sm:inline"> Energetic</span></button>
-                    <button data-mood="calm" class="mood-btn">🧘<span class="hidden sm:inline"> Calm</span></button>
-                    <button data-mood="romantic" class="mood-btn">❤️<span class="hidden sm:inline"> Romantic</span></button>
-                    <button data-mood="workout" class="mood-btn">💪<span class="hidden sm:inline"> Workout</span></button>
-                    <button data-mood="bhojpuri" class="mood-btn">🎶<span class="hidden sm:inline"> Bhojpuri</span></button>
-                    <button data-mood="punjabi" class="mood-btn">🕺<span class="hidden sm:inline"> Punjabi</span></button>
-                    <button data-mood="haryanvi" class="mood-btn">💃<span class="hidden sm:inline"> Haryanvi</span></button>
-                </div>
+                     <button data-mood="happy" class="mood-btn">😊<span class="hidden sm:inline"> Happy</span></button>
+                     <button data-mood="sad" class="mood-btn">😢<span class="hidden sm:inline"> Sad</span></button>
+                     <button data-mood="energetic" class="mood-btn">⚡<span class="hidden sm:inline"> Energetic</span></button>
+                     <button data-mood="calm" class="mood-btn">🧘<span class="hidden sm:inline"> Calm</span></button>
+                     <button data-mood="romantic" class="mood-btn">❤️<span class="hidden sm:inline"> Romantic</span></button>
+                     <button data-mood="workout" class="mood-btn">💪<span class="hidden sm:inline"> Workout</span></button>
+                     <button data-mood="bhojpuri" class="mood-btn">🎶<span class="hidden sm:inline"> Bhojpuri</span></button>
+                     <button data-mood="punjabi" class="mood-btn">🕺<span class="hidden sm:inline"> Punjabi</span></button>
+                     <button data-mood="haryanvi" class="mood-btn">💃<span class="hidden sm:inline"> Haryanvi</span></button>
+                 </div>
 
-                <div id="singer-selection-container" class="hidden mt-8">
-                    <h2 class="text-lg font-semibold text-gray-300 mb-4">2. Choose an Artist</h2>
-                    <div id="singer-list" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        </div>
-                </div>
+                 <div id="singer-selection-container" class="hidden mt-8">
+                     <h2 class="text-lg font-semibold text-gray-300 mb-4">2. Choose an Artist</h2>
+                     <div id="singer-list" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                         </div>
+                 </div>
             </div>
 
             <div class="mt-8 text-center">
                  <button id="generate-more" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-3 px-6 rounded-xl transition-all transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-opacity-50 flex items-center justify-center w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100">
-                    <svg id="sparkle-icon" class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.293 2.293a1 1 0 010 1.414L10 16l-4 4 4-4 5.293 5.293a1 1 0 001.414 0L21 18m-5-5l2.293-2.293a1 1 0 000-1.414L16 7l-4 4 4 4z"></path></svg>
-                    <span id="generate-text">Generate with AI</span>
-                    <div id="spinner" class="spinner hidden ml-3"></div>
-                </button>
+                     <svg id="sparkle-icon" class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.293 2.293a1 1 0 010 1.414L10 16l-4 4 4-4 5.293 5.293a1 1 0 001.414 0L21 18m-5-5l2.293-2.293a1 1 0 000-1.414L16 7l-4 4 4 4z"></path></svg>
+                     <span id="generate-text">Generate with AI</span>
+                     <div id="spinner" class="spinner hidden ml-3"></div>
+                 </button>
             </div>
         </div>
 
@@ -109,44 +109,77 @@
 
                 <div id="api-results" class="hidden flex-grow flex flex-col overflow-hidden mt-6">
                      <h2 class="text-2xl font-bold mb-4 flex-shrink-0">Freshly Generated For You</h2>
-                    <div id="api-song-list" class="space-y-3 overflow-y-auto custom-scrollbar flex-grow pr-2">
-                        </div>
+                     <div id="api-song-list" class="space-y-3 overflow-y-auto custom-scrollbar flex-grow pr-2">
+                         </div>
                 </div>
             </div>
         </div>
     </div>
     
 <script>
-    // --- DATA ---
+    // --- DATA (NEW STRUCTURE) ---
     const songDatabase = {
-        happy: [ { title: "Gallan Goodiyaan", artist: "Yashita Sharma, Manish Kumar Tipu" }, { title: "Mauja Hi Mauja", artist: "Mika Singh" }, { title: "Badtameez Dil", artist: "Benny Dayal, Shefali Alvares" } ],
-        sad: [ { title: "Tujhe Bhula Diya", artist: "Mohit Chauhan, Shekhar Ravjiani" }, { title: "Kabira", artist: "Tochi Raina, Rekha Bhardwaj" }, { title: "Channa Mereya", artist: "Arijit Singh" } ],
-        energetic: [ { title: "Malhari", artist: "Vishal Dadlani" }, { title: "Zinda", artist: "Siddharth Mahadevan" }, { title: "Chak De! India", artist: "Sukhwinder Singh, Salim-Sulaiman" } ],
-        calm: [ { title: "Iktara", artist: "Kavita Seth, Amitabh Bhattacharya" }, { title: "Sham", artist: "Amit Trivedi, Nikhil D'Souza" }, { title: "Kun Faya Kun", artist: "A. R. Rahman, Javed Ali" } ],
-        romantic: [ { title: "Tujh Mein Rab Dikhta Hai", artist: "Roop Kumar Rathod" }, { title: "Tum Se Hi", artist: "Mohit Chauhan" }, { title: "Pehla Nasha", artist: "Udit Narayan, Sadhana Sargam" } ],
-        workout: [ { title: "Sultan (Title Track)", artist: "Sukhwinder Singh, Shadab Faridi" }, { title: "Bhaag Milkha Bhaag", artist: "Arif Lohar" }, { title: "Ziddi Dil", artist: "Vishal Dadlani" } ],
-        bhojpuri: {
-            _type: 'language',
+        happy: {
             singers: {
-                pawanSingh: { displayName: 'Pawan Singh', songs: [ { title: "Lollipop Lagelu", artist: "Pawan Singh" }, { title: "Pudina Ae Haseena", artist: "Pawan Singh, Anupama Yadav" } ]},
-                neelkamal: { displayName: 'Neelkamal Singh', songs: [ { title: "Laal Ghaghra", artist: "Neelkamal Singh, Shilpi Raj" }, { title: "Jaan Tohare Naam", artist: "Neelkamal Singh" } ]},
-                khesariLal: { displayName: 'Khesari Lal', songs: [ { title: "Nathuniya", artist: "Khesari Lal Yadav, Priyanka Singh" }, { title: "Le Le Aayi Coca Cola", artist: "Khesari Lal Yadav, Shilpi Raj" } ]}
+                mikaSingh: { displayName: 'Mika Singh', songs: [ { title: "Mauja Hi Mauja", artist: "Mika Singh" }, { title: "Aaj Ki Party", artist: "Mika Singh" }, { title: "Dil Mein Baji Guitar", artist: "Mika Singh" } ]},
+                shankarMahadevan: { displayName: 'Shankar Mahadevan', songs: [ { title: "Jhoom Barabar Jhoom", artist: "Shankar Mahadevan" }, { title: "Gallan Goodiyaan", artist: "Yashita Sharma, Manish Kumar Tipu" }, { title: "Desi Girl", artist: "Shankar Mahadevan, Sunidhi Chauhan" } ]},
+                bennyDayal: { displayName: 'Benny Dayal', songs: [ { title: "Badtameez Dil", artist: "Benny Dayal, Shefali Alvares" }, { title: "Let's Nacho", artist: "Benny Dayal, Nucleya" } ]}
+            }
+        },
+        sad: {
+            singers: {
+                arijitSingh: { displayName: 'Arijit Singh', songs: [ { title: "Channa Mereya", artist: "Arijit Singh" }, { title: "Agar Tum Saath Ho", artist: "Arijit Singh, Alka Yagnik" }, { title: "Pachtaoge", artist: "Arijit Singh" } ]},
+                mohitChauhan: { displayName: 'Mohit Chauhan', songs: [ { title: "Tujhe Bhula Diya", artist: "Mohit Chauhan, Shekhar Ravjiani" }, { title: "Matargashti", artist: "Mohit Chauhan" }, { title: "Sadda Haq", artist: "Mohit Chauhan" } ]},
+                jubinNautiyal: { displayName: 'Jubin Nautiyal', songs: [ { title: "Lut Gaye", artist: "Jubin Nautiyal, Tanishk Bagchi" }, { title: "Tum Hi Aana", artist: "Jubin Nautiyal" } ]}
+            }
+        },
+        energetic: {
+            singers: {
+                vishalDadlani: { displayName: 'Vishal Dadlani', songs: [ { title: "Malhari", artist: "Vishal Dadlani" }, { title: "Swag Se Swagat", artist: "Vishal Dadlani, Neha Bhasin" } ]},
+                sukhwinderSingh: { displayName: 'Sukhwinder Singh', songs: [ { title: "Chak De! India", artist: "Sukhwinder Singh" }, { title: "Kar Har Maidaan Fateh", artist: "Sukhwinder Singh, Shreya Ghoshal" } ]},
+                badshah: { displayName: 'Badshah', songs: [ { title: "Kala Chashma", artist: "Amar Arshi, Badshah, Neha Kakkar" }, { title: "Garmi", artist: "Badshah, Neha Kakkar" } ]}
+            }
+        },
+        calm: {
+            singers: {
+                arRahman: { displayName: 'A.R. Rahman', songs: [ { title: "Kun Faya Kun", artist: "A.R. Rahman, Javed Ali" }, { title: "Maa Tujhe Salaam", artist: "A.R. Rahman" }, { title: "Tu Hi Re", artist: "Hariharan, Kavita Krishnamurthy" } ]},
+                amitTrivedi: { displayName: 'Amit Trivedi', songs: [ { title: "Sham", artist: "Amit Trivedi, Nikhil D'Souza" }, { title: "Iktara", artist: "Kavita Seth, Amitabh Bhattacharya" }, { title: "Love You Zindagi", artist: "Jasleen Royal" } ]},
+                luckyAli: { displayName: 'Lucky Ali', songs: [ { title: "O Sanam", artist: "Lucky Ali" }, { title: "Ek Pal Ka Jeena", artist: "Lucky Ali" } ]}
+            }
+        },
+        romantic: {
+            singers: {
+                shreyaGhoshal: { displayName: 'Shreya Ghoshal', songs: [ { title: "Teri Ore", artist: "Shreya Ghoshal, Rahat Fateh Ali Khan" }, { title: "Deewani Mastani", artist: "Shreya Ghoshal" }, { title: "Pal", artist: "Arijit Singh, Shreya Ghoshal" } ]},
+                uditNarayan: { displayName: 'Udit Narayan', songs: [ { title: "Pehla Nasha", artist: "Udit Narayan, Sadhana Sargam" }, { title: "Main Yahaan Hoon", artist: "Udit Narayan" }, { title: "Mitwa", artist: "Udit Narayan, Alka Yagnik" } ]},
+                arijitSingh: { displayName: 'Arijit Singh', songs: [ { title: "Tum Hi Ho", artist: "Arijit Singh" }, { title: "Kesariya", artist: "Arijit Singh" }, { title: "Gerua", artist: "Arijit Singh, Antara Mitra" } ]}
+            }
+        },
+        workout: {
+            singers: {
+                sukhwinderSingh: { displayName: 'Sukhwinder Singh', songs: [ { title: "Sultan (Title Track)", artist: "Sukhwinder Singh" }, { title: "Dard-E-Disco", artist: "Sukhwinder Singh" } ]},
+                vishalDadlani: { displayName: 'Vishal Dadlani', songs: [ { title: "Ziddi Dil", artist: "Vishal Dadlani" }, { title: "Jai Jai Shivshankar", artist: "Vishal Dadlani, Benny Dayal" } ]},
+                divine: { displayName: 'DIVINE', songs: [ { title: "Mere Gully Mein", artist: "DIVINE, Naezy" }, { title: "Apna Time Aayega", artist: "Ranveer Singh, DIVINE" } ]}
+            }
+        },
+        bhojpuri: {
+            singers: {
+                pawanSingh: { displayName: 'Pawan Singh', songs: [ { title: "Lollipop Lagelu", artist: "Pawan Singh" }, { title: "Pudina Ae Haseena", artist: "Pawan Singh" }, { title: "Tumsa Koi Pyaara", artist: "Pawan Singh, Priyanka Singh" } ]},
+                khesariLal: { displayName: 'Khesari Lal', songs: [ { title: "Nathuniya", artist: "Khesari Lal Yadav" }, { title: "Le Le Aayi Coca Cola", artist: "Khesari Lal Yadav" }, { title: "Theek Hai", artist: "Khesari Lal Yadav" } ]},
+                neelkamal: { displayName: 'Neelkamal Singh', songs: [ { title: "Laal Ghaghra", artist: "Neelkamal Singh" }, { title: "Jaan Tohare Naam", artist: "Neelkamal Singh" } ]}
             }
         },
         punjabi: {
-            _type: 'language',
             singers: {
-                shubh: { displayName: 'Shubh', songs: [ { title: "Still Rollin'", artist: "Shubh" }, { title: "Cheques", artist: "Shubh" }, { title: "No Love", artist: "Shubh, Ikky" } ] },
-                honeySingh: { displayName: 'Yo Yo Honey Singh', songs: [ { title: "Brown Rang", artist: "Yo Yo Honey Singh" }, { title: "Lungi Dance", artist: "Yo Yo Honey Singh" }, { title: "Blue Eyes", artist: "Yo Yo Honey Singh" } ] },
-                apDhillon: { displayName: 'AP Dhillon', songs: [ { title: "Brown Munde", artist: "AP Dhillon, Gurinder Gill" }, { title: "Insane", artist: "AP Dhillon, Shinda Kahlon" }, { title: "Excuses", artist: "AP Dhillon, Gurinder Gill" } ] }
+                shubh: { displayName: 'Shubh', songs: [ { title: "Still Rollin'", artist: "Shubh" }, { title: "Cheques", artist: "Shubh" }, { title: "No Love", artist: "Shubh" } ] },
+                apDhillon: { displayName: 'AP Dhillon', songs: [ { title: "Brown Munde", artist: "AP Dhillon" }, { title: "Insane", artist: "AP Dhillon" }, { title: "Excuses", artist: "AP Dhillon" } ] },
+                diljitDosanjh: { displayName: 'Diljit Dosanjh', songs: [ { title: "Lover", artist: "Diljit Dosanjh" }, { title: "Proper Patola", artist: "Diljit Dosanjh, Badshah" }, { title: "G.O.A.T.", artist: "Diljit Dosanjh" } ] }
             }
         },
         haryanvi: {
-            _type: 'language',
             singers: {
-                gulzaar: { displayName: 'Gulzaar Chhaniwala', songs: [ { title: "Badnam", artist: "Gulzaar Chhaniwala" }, { title: "Kasoote", artist: "Gulzaar Chhaniwala" }, { title: "Gypsy", artist: "G. D. Kaur" } ] },
-                masoomSharma: { displayName: 'Masoom Sharma', songs: [ { title: "Kothe Upar Kothri", artist: "Masoom Sharma, Manisha Sharma" }, { title: "English Medium", artist: "Masoom Sharma, Annu Kadyan" } ] },
-                dilerKharkiya: { displayName: 'Diler Kharakiya', songs: [ { title: "Moto", artist: "Diler Kharkiya, Ajay Hooda" }, { title: "52 Gaj Ka Daman", artist: "Renuka Panwar" }, { title: "Chatak Matak", artist: "Renuka Panwar" } ] }
+                gulzaar: { displayName: 'Gulzaar C.', songs: [ { title: "Badnam", artist: "Gulzaar Chhaniwala" }, { title: "Kasoote", artist: "Gulzaar Chhaniwala" } ] },
+                renukaPanwar: { displayName: 'Renuka Panwar', songs: [ { title: "52 Gaj Ka Daman", artist: "Renuka Panwar" }, { title: "Chatak Matak", artist: "Renuka Panwar" }, { title: "Kala Daman", artist: "Renuka Panwar" } ] },
+                dilerKharkiya: { displayName: 'Diler Kharakiya', songs: [ { title: "Moto", artist: "Diler Kharkiya" }, { title: "Wish", artist: "Diler Kharkiya" } ] }
             }
         }
     };
@@ -217,14 +250,14 @@
         }
     }
 
-    function renderSingers(languageKey, singers) {
+    function renderSingers(categoryKey, singers) {
         singerListDiv.innerHTML = '';
         for (const singerKey in singers) {
             const singer = singers[singerKey];
             const button = document.createElement('button');
             button.className = 'singer-btn text-white bg-gray-700/60 hover:bg-gray-600/80 p-3 rounded-xl font-semibold border-2 border-gray-600 transition-all';
             button.textContent = singer.displayName;
-            button.dataset.languageKey = languageKey;
+            button.dataset.categoryKey = categoryKey;
             button.dataset.singerKey = singerKey;
             singerListDiv.appendChild(button);
         }
@@ -236,25 +269,26 @@
             currentMood = button.dataset.mood;
             const selection = songDatabase[currentMood];
             
-            // UI updates
+            // --- UI updates ---
             placeholderDiv.classList.add('hidden');
             recommendationsDiv.classList.remove('hidden');
-            apiResultsDiv.classList.add('hidden');
+            apiResultsDiv.classList.add('hidden'); // Hide AI results when category changes
             apiSongListDiv.innerHTML = '';
             generateMoreBtn.disabled = false;
             
+            // Highlight active mood button
             moodButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
 
-            if (selection._type === 'language') {
-                singerSelectionContainer.classList.remove('hidden');
-                songListContainer.classList.add('hidden'); // Hide song list until singer is picked
-                renderSingers(currentMood, selection.singers);
-            } else {
-                singerSelectionContainer.classList.add('hidden');
-                songListContainer.classList.remove('hidden');
-                renderSongs(selection, songListDiv);
-            }
+            // --- Logic Update ---
+            // The structure is now consistent. Always show the singer selection.
+            singerSelectionContainer.classList.remove('hidden');
+            songListContainer.classList.add('hidden'); // Hide song list until a singer is chosen.
+            
+            // Reset active singer button from previous selection
+            document.querySelectorAll('.singer-btn').forEach(btn => btn.classList.remove('active'));
+            
+            renderSingers(currentMood, selection.singers);
         });
     });
 
@@ -262,12 +296,12 @@
         const button = event.target.closest('.singer-btn');
         if (!button) return;
 
-        // UI updates
+        // UI updates for singer selection
         document.querySelectorAll('.singer-btn').forEach(btn => btn.classList.remove('active'));
         button.classList.add('active');
 
-        const { languageKey, singerKey } = button.dataset;
-        const songs = songDatabase[languageKey].singers[singerKey].songs;
+        const { categoryKey, singerKey } = button.dataset;
+        const songs = songDatabase[categoryKey].singers[singerKey].songs;
         
         songListContainer.classList.remove('hidden');
         renderSongs(songs, songListDiv);
