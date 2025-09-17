@@ -1,1 +1,55 @@
-
+{
+  "happy": {
+    "singers": {
+      "mikaSingh": { "displayName": "Mika Singh", "songs": [ { "title": "Mauja Hi Mauja", "artist": "Mika Singh" }, { "title": "Aaj Ki Party", "artist": "Mika Singh" }, { "title": "Dhinka Chika", "artist": "Mika Singh, Amrita Kak" } ]},
+      "shankarMahadevan": { "displayName": "Shankar Mahadevan", "songs": [ { "title": "Jhoom Barabar Jhoom", "artist": "Shankar Mahadevan" }, { "title": "Gallan Goodiyaan", "artist": "Yashita Sharma, Manish Kumar Tipu" }, { "title": "Pretty Woman", "artist": "Shankar Mahadevan, Ravi Khote" } ]},
+      "renukaPanwar": { "displayName": "Renuka Panwar", "songs": [ { "title": "52 Gaj Ka Daman", "artist": "Renuka Panwar" }, { "title": "Chatak Matak", "artist": "Renuka Panwar" }, { "title": "Kala Daman", "artist": "Renuka Panwar" } ] },
+      "khesariLal": { "displayName": "Khesari Lal", "songs": [ { "title": "Le Le Aayi Coca Cola", "artist": "Khesari Lal Yadav" }, { "title": "Nathuniya", "artist": "Khesari Lal Yadav, Priyanka Singh" } ] },
+      "sunidhiChauhan": { "displayName": "Sunidhi Chauhan", "songs": [ { "title": "Ainvayi Ainvayi", "artist": "Salim Merchant, Sunidhi Chauhan" }, { "title": "Dilliwaali Girlfriend", "artist": "Arijit Singh, Sunidhi Chauhan" } ]}
+    }
+  },
+  "sad": {
+    "singers": {
+      "arijitSingh": { "displayName": "Arijit Singh", "songs": [ { "title": "Channa Mereya", "artist": "Arijit Singh" }, { "title": "Agar Tum Saath Ho", "artist": "Arijit Singh, Alka Yagnik" }, { "title": "Pachtaoge", "artist": "Arijit Singh" }, { "title": "Hamari Adhuri Kahani", "artist": "Arijit Singh" } ]},
+      "mohitChauhan": { "displayName": "Mohit Chauhan", "songs": [ { "title": "Tujhe Bhula Diya", "artist": "Mohit Chauhan" }, { "title": "Sadda Haq", "artist": "Mohit Chauhan" }, { "title": "Phir Se Ud Chala", "artist": "Mohit Chauhan" } ]},
+      "jubinNautiyal": { "displayName": "Jubin Nautiyal", "songs": [ { "title": "Lut Gaye", "artist": "Jubin Nautiyal" }, { "title": "Tum Hi Aana", "artist": "Jubin Nautiyal" }, { "title": "Bewafa Tera Masoom Chehra", "artist": "Jubin Nautiyal" } ]},
+      "atifAslam": { "displayName": "Atif Aslam", "songs": [ { "title": "Jeena Jeena", "artist": "Atif Aslam" }, { "title": "Tera Hone Laga Hoon", "artist": "Atif Aslam, Alisha Chinai" } ]}
+    }
+  },
+  "energetic": {
+    "singers": {
+      "vishalDadlani": { "displayName": "Vishal Dadlani", "songs": [ { "title": "Malhari", "artist": "Vishal Dadlani" }, { "title": "Swag Se Swagat", "artist": "Vishal Dadlani" }, { "title": "Dhoom Again", "artist": "Vishal Dadlani, Dominique Cerejo" } ]},
+      "sukhwinderSingh": { "displayName": "Sukhwinder Singh", "songs": [ { "title": "Chak De! India", "artist": "Sukhwinder Singh" }, { "title": "Kar Har Maidaan Fateh", "artist": "Sukhwinder Singh" }, { "title": "Haule Haule", "artist": "Sukhwinder Singh" } ]},
+      "badshah": { "displayName": "Badshah", "songs": [ { "title": "Kala Chashma", "artist": "Badshah, Neha Kakkar" }, { "title": "Garmi", "artist": "Badshah, Neha Kakkar" }, { "title": "DJ Waley Babu", "artist": "Badshah, Aastha Gill" } ]},
+      "pawanSingh": { "displayName": "Pawan Singh", "songs": [ { "title": "Lollipop Lagelu", "artist": "Pawan Singh" }, { "title": "Pudina Ae Haseena", "artist": "Pawan Singh" } ]},
+      "apDhillon": { "displayName": "AP Dhillon", "songs": [ { "title": "Brown Munde", "artist": "AP Dhillon" }, { "title": "Insane", "artist": "AP Dhillon" }, { "title": "Excuses", "artist": "AP Dhillon, Gurinder Gill" } ]},
+      "diljitDosanjh": { "displayName": "Diljit Dosanjh", "songs": [ { "title": "G.O.A.T.", "artist": "Diljit Dosanjh" }, { "title": "Proper Patola", "artist": "Diljit Dosanjh, Badshah" }, { "title": "Lalkara", "artist": "Diljit Dosanjh" } ]}
+    }
+  },
+  "calm": {
+    "singers": {
+      "arRahman": { "displayName": "A.R. Rahman", "songs": [ { "title": "Kun Faya Kun", "artist": "A.R. Rahman, Javed Ali" }, { "title": "Maa Tujhe Salaam", "artist": "A.R. Rahman" }, { "title": "Tu Hi Re", "artist": "Hariharan, Kavita Krishnamurthy" } ]},
+      "amitTrivedi": { "displayName": "Amit Trivedi", "songs": [ { "title": "Sham", "artist": "Amit Trivedi" }, { "title": "Iktara", "artist": "Kavita Seth" }, { "title": "Namo Namo", "artist": "Amit Trivedi" } ]},
+      "luckyAli": { "displayName": "Lucky Ali", "songs": [ { "title": "O Sanam", "artist": "Lucky Ali" }, { "title": "Ek Pal Ka Jeena", "artist": "Lucky Ali" }, { "title": "Safarnama", "artist": "Lucky Ali" } ]},
+      "prateekKuhad": { "displayName": "Prateek Kuhad", "songs": [ { "title": "cold/mess", "artist": "Prateek Kuhad" }, { "title": "Kasoor", "artist": "Prateek Kuhad" } ]}
+    }
+  },
+  "romantic": {
+    "singers": {
+      "shreyaGhoshal": { "displayName": "Shreya Ghoshal", "songs": [ { "title": "Teri Ore", "artist": "Shreya Ghoshal" }, { "title": "Deewani Mastani", "artist": "Shreya Ghoshal" }, { "title": "Pal", "artist": "Arijit Singh, Shreya Ghoshal" }, { "title": "Sun Raha Hai Na Tu", "artist": "Shreya Ghoshal" } ]},
+      "arijitSingh": { "displayName": "Arijit Singh", "songs": [ { "title": "Tum Hi Ho", "artist": "Arijit Singh" }, { "title": "Kesariya", "artist": "Arijit Singh" }, { "title": "Gerua", "artist": "Arijit Singh" }, { "title": "Zaalima", "artist": "Arijit Singh, Harshdeep Kaur" } ]},
+      "diljitDosanjh": { "displayName": "Diljit Dosanjh", "songs": [ { "title": "Lover", "artist": "Diljit Dosanjh" }, { "title": "Do You Know", "artist": "Diljit Dosanjh" }, { "title": "Ikk Kudi", "artist": "Diljit Dosanjh" } ]},
+      "dilerKharkiya": { "displayName": "Diler Kharakiya", "songs": [ { "title": "Moto", "artist": "Diler Kharkiya" } ] },
+      "sonuNigam": { "displayName": "Sonu Nigam", "songs": [ { "title": "Kal Ho Naa Ho", "artist": "Sonu Nigam" }, { "title": "Suraj Hua Maddham", "artist": "Sonu Nigam, Alka Yagnik" }, { "title": "Abhi Mujh Mein Kahin", "artist": "Sonu Nigam" } ]}
+    }
+  },
+  "workout": {
+    "singers": {
+      "sukhwinderSingh": { "displayName": "Sukhwinder Singh", "songs": [ { "title": "Sultan (Title Track)", "artist": "Sukhwinder Singh" }, { "title": "Dard-E-Disco", "artist": "Sukhwinder Singh" }, { "title": "Bhaag Milkha Bhaag", "artist": "Arif Lohar" } ]},
+      "vishalDadlani": { "displayName": "Vishal Dadlani", "songs": [ { "title": "Ziddi Dil", "artist": "Vishal Dadlani" }, { "title": "Jai Jai Shivshankar", "artist": "Vishal Dadlani" }, { "title": "Ghungroo", "artist": "Arijit Singh, Shilpa Rao" } ]},
+      "divine": { "displayName": "DIVINE", "songs": [ { "title": "Mere Gully Mein", "artist": "DIVINE, Naezy" }, { "title": "Apna Time Aayega", "artist": "Ranveer Singh, DIVINE" }, { "title": "Baazigar", "artist": "DIVINE, Armani White" } ]},
+      "shubh": { "displayName": "Shubh", "songs": [ { "title": "Still Rollin'", "artist": "Shubh" }, { "title": "Cheques", "artist": "Shubh" }, { "title": "No Love", "artist": "Shubh" } ] },
+      "honeySingh": { "displayName": "Yo Yo Honey Singh", "songs": [ { "title": "Lungi Dance", "artist": "Yo Yo Honey Singh" }, { "title": "Blue Eyes", "artist": "Yo Yo Honey Singh" }, { "title": "Chaar Botal Vodka", "artist": "Yo Yo Honey Singh" } ]}
+    }
+  }
+}
