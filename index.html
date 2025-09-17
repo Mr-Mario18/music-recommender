@@ -9,27 +9,13 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #111827; /* bg-gray-900 */
-            color: #f3f4f6; /* text-gray-100 */
+            background-color: #111827;
+            color: #f3f4f6;
         }
-
-        /* --- Custom Scrollbar --- */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 8px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #1f2937; /* bg-gray-800 */
-            border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #4b5563; /* bg-gray-600 */
-            border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #6b7280; /* bg-gray-500 */
-        }
-        
-        /* --- Spinner Animation --- */
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #1f2937; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #6b7280; }
         .spinner {
             border: 4px solid rgba(255, 255, 255, 0.2);
             border-radius: 50%;
@@ -38,76 +24,82 @@
             height: 24px;
             animation: spin 1s linear infinite;
         }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* --- Selection Highlighting --- */
-        .mood-btn.active {
-             transform: scale(1.05);
-             box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .mood-btn.active, .special-btn.active {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
         .singer-btn.active {
-            background-color: #4f46e5; /* bg-indigo-600 */
-            border-color: #a5b4fc; /* border-indigo-300 */
+            background-color: #4f46e5;
+            border-color: #a5b4fc;
+        }
+        .fav-btn.favorited svg {
+            fill: #ef4444; /* red-500 */
+            color: #ef4444;
         }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4 sm:p-6 lg:p-8">
 
-    <div class="w-full max-w-7xl mx-auto bg-gray-800/50 backdrop-blur-xl border border-gray-700 rounded-3xl shadow-2xl flex flex-col md:flex-row overflow-hidden" style="min-height: 80vh;">
+    <div class="w-full max-w-7xl mx-auto bg-gray-800/50 backdrop-blur-xl border border-gray-700 rounded-3xl shadow-2xl flex flex-col md:flex-row overflow-hidden" style="min-height: 85vh;">
 
         <div class="w-full md:w-1/3 lg:w-2/5 p-6 md:p-8 border-b md:border-b-0 md:border-r border-gray-700 flex flex-col">
-            <div class="text-center md:text-left mb-8">
+            <div class="text-center md:text-left mb-6">
                 <h1 id="main-heading" class="text-4xl font-extrabold text-white">Sourabh's Music Arena</h1>
                 <p class="text-gray-400 mt-2">Discover Indian music tailored to your vibe.</p>
             </div>
 
-            <div class="flex-grow">
-                 <h2 class="text-lg font-semibold text-gray-300 mb-4">1. Select Your Mood</h2>
-                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                     <button data-mood="happy" class="mood-btn">😊<span class="hidden sm:inline"> Happy</span></button>
-                     <button data-mood="sad" class="mood-btn">😢<span class="hidden sm:inline"> Sad</span></button>
-                     <button data-mood="energetic" class="mood-btn">⚡<span class="hidden sm:inline"> Energetic</span></button>
-                     <button data-mood="calm" class="mood-btn">🧘<span class="hidden sm:inline"> Calm</span></button>
-                     <button data-mood="romantic" class="mood-btn">❤️<span class="hidden sm:inline"> Romantic</span></button>
-                     <button data-mood="workout" class="mood-btn">💪<span class="hidden sm:inline"> Workout</span></button>
-                 </div>
-
-                 <div id="singer-selection-container" class="hidden mt-8">
-                     <h2 class="text-lg font-semibold text-gray-300 mb-4">2. Choose an Artist</h2>
-                     <div id="singer-list" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                         </div>
-                 </div>
+            <div class="relative mb-6">
+                <input type="text" id="search-input" placeholder="Search for songs or artists..." class="w-full bg-gray-900/50 border-2 border-gray-600 rounded-xl py-3 px-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                <svg class="w-5 h-5 text-gray-400 absolute right-4 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             </div>
 
-            <div class="mt-8 text-center">
-                 <button id="generate-more" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-3 px-6 rounded-xl transition-all transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-opacity-50 flex items-center justify-center w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100">
-                     <svg id="sparkle-icon" class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.293 2.293a1 1 0 010 1.414L10 16l-4 4 4-4 5.293 5.293a1 1 0 001.414 0L21 18m-5-5l2.293-2.293a1 1 0 000-1.414L16 7l-4 4 4 4z"></path></svg>
-                     <span id="generate-text">Generate with AI</span>
-                     <div id="spinner" class="spinner hidden ml-3"></div>
-                 </button>
+            <div class="flex-grow">
+                <div class="flex items-center justify-between mb-4">
+                     <h2 class="text-lg font-semibold text-gray-300">1. Select Your Mood</h2>
+                     <button id="surprise-btn" title="Surprise Me!" class="text-gray-400 hover:text-white transition">🎲</button>
+                </div>
+                <div class="grid grid-cols-3 md:grid-cols-4 gap-3">
+                    <button data-mood="happy" class="mood-btn">😊<span class="hidden sm:inline"> Happy</span></button>
+                    <button data-mood="sad" class="mood-btn">😢<span class="hidden sm:inline"> Sad</span></button>
+                    <button data-mood="energetic" class="mood-btn">⚡<span class="hidden sm:inline"> Energetic</span></button>
+                    <button data-mood="calm" class="mood-btn">🧘<span class="hidden sm:inline"> Calm</span></button>
+                    <button data-mood="romantic" class="mood-btn">❤️<span class="hidden sm:inline"> Romantic</span></button>
+                    <button data-mood="workout" class="mood-btn">💪<span class="hidden sm:inline"> Workout</span></button>
+                    <button id="favorites-btn" class="special-btn col-span-2 md:col-span-2 bg-red-500/20 text-red-300 border-red-500">❤️ My Favorites</button>
+                    <button id="all-artists-btn" class="special-btn col-span-3 md:col-span-2 bg-sky-500/20 text-sky-300 border-sky-500">🎤 All Artists</button>
+                </div>
+
+                <div id="singer-selection-container" class="hidden mt-6">
+                    <h2 id="artist-heading" class="text-lg font-semibold text-gray-300 mb-4">2. Choose an Artist</h2>
+                    <div id="singer-list" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+                </div>
+            </div>
+
+            <div class="mt-6 text-center">
+                <button id="generate-more" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold py-3 px-6 rounded-xl transition-all transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-opacity-50 flex items-center justify-center w-full disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100">
+                    <svg id="sparkle-icon" class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.293 2.293a1 1 0 010 1.414L10 16l-4 4 4-4 5.293 5.293a1 1 0 001.414 0L21 18m-5-5l2.293-2.293a1 1 0 000-1.414L16 7l-4 4 4 4z"></path></svg>
+                    <span id="generate-text">Generate with AI</span>
+                    <div id="spinner" class="spinner hidden ml-3"></div>
+                </button>
             </div>
         </div>
 
         <div class="w-full md:w-2/3 lg:w-3/5 p-6 md:p-8 flex flex-col bg-black/20">
             <div id="placeholder" class="flex-grow flex flex-col items-center justify-center text-center text-gray-500">
-                <svg class="w-24 h-24 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"></path></svg>
+                <svg class="w-24 h-24 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"></path></svg>
                 <h2 class="text-2xl font-bold">Your Playlist Awaits</h2>
-                <p>Select a mood to get started.</p>
+                <p>Select a mood or search to get started.</p>
             </div>
 
             <div id="recommendations" class="hidden flex-grow flex flex-col overflow-hidden">
-                <div id="song-list-container" class="hidden flex-grow flex flex-col overflow-hidden">
-                    <h2 class="text-2xl font-bold mb-4 flex-shrink-0">Editor's Picks</h2>
-                    <div id="song-list" class="space-y-3 overflow-y-auto custom-scrollbar flex-grow pr-2">
-                        </div>
+                <div id="song-list-container" class="flex-grow flex flex-col overflow-hidden">
+                    <h2 id="playlist-title" class="text-2xl font-bold mb-4 flex-shrink-0">Editor's Picks</h2>
+                    <div id="song-list" class="space-y-3 overflow-y-auto custom-scrollbar flex-grow pr-2"></div>
                 </div>
-
                 <div id="api-results" class="hidden flex-grow flex flex-col overflow-hidden mt-6">
-                     <h2 class="text-2xl font-bold mb-4 flex-shrink-0">Freshly Generated For You</h2>
-                     <div id="api-song-list" class="space-y-3 overflow-y-auto custom-scrollbar flex-grow pr-2">
-                         </div>
+                    <h2 class="text-2xl font-bold mb-4 flex-shrink-0">Freshly Generated For You</h2>
+                    <div id="api-song-list" class="space-y-3 overflow-y-auto custom-scrollbar flex-grow pr-2"></div>
                 </div>
             </div>
         </div>
@@ -199,9 +191,14 @@
         romantic: 'bg-pink-500/20 text-pink-300 border-pink-500',
         workout: 'bg-orange-500/20 text-orange-300 border-orange-500'
     };
+    
+    // --- App State ---
+    let currentMood = '';
+    let favorites = JSON.parse(localStorage.getItem('spma_favorites')) || [];
 
     // --- DOM ELEMENTS ---
     const moodButtons = document.querySelectorAll('.mood-btn');
+    const specialButtons = document.querySelectorAll('.special-btn');
     const placeholderDiv = document.getElementById('placeholder');
     const recommendationsDiv = document.getElementById('recommendations');
     const singerSelectionContainer = document.getElementById('singer-selection-container');
@@ -213,80 +210,191 @@
     const apiSongListDiv = document.getElementById('api-song-list');
     const spinner = document.getElementById('spinner');
     const generateText = document.getElementById('generate-text');
+    const artistHeading = document.getElementById('artist-heading');
+    const playlistTitle = document.getElementById('playlist-title');
+    const searchInput = document.getElementById('search-input');
+    const surpriseBtn = document.getElementById('surprise-btn');
+    const allArtistsBtn = document.getElementById('all-artists-btn');
+    const favoritesBtn = document.getElementById('favorites-btn');
 
-    let currentMood = '';
-    
     // --- INITIALIZATION ---
     function initializeUI() {
         moodButtons.forEach(button => {
             const mood = button.dataset.mood;
-            const style = moodBtnStyles[mood];
-            button.className = `mood-btn flex items-center justify-center p-3 rounded-xl font-semibold border-2 transition-all transform hover:scale-105 ${style}`;
+            button.className = `mood-btn flex items-center justify-center p-2 rounded-xl font-semibold border-2 transition-all transform hover:scale-105 ${moodBtnStyles[mood]}`;
+        });
+        specialButtons.forEach(button => {
+            button.className += ' flex items-center justify-center p-2 rounded-xl font-semibold border-2 transition-all transform hover:scale-105';
         });
         generateMoreBtn.disabled = true;
     }
 
-    // --- FUNCTIONS ---
-    function renderSongs(songs, container) {
+    // --- RENDER FUNCTIONS ---
+    function renderSongs(songs, container, title = "Editor's Picks") {
+        playlistTitle.textContent = title;
         container.innerHTML = '';
         if (songs && songs.length > 0) {
             songs.forEach(song => {
                 const searchQuery = `${song.title} ${song.artist}`;
                 const youtubeMusicUrl = `https://music.youtube.com/search?q=${encodeURIComponent(searchQuery)}`;
+                const youtubeVideoUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(searchQuery + ' official video')}`;
+                const isFavorited = favorites.some(fav => fav.title === song.title && fav.artist === song.artist);
+
                 const songHTML = `
-                    <a href="${youtubeMusicUrl}" target="_blank" rel="noopener noreferrer" class="bg-gray-800/50 p-4 rounded-xl flex items-center gap-4 shadow-md transition-all transform hover:scale-102 hover:bg-gray-700/80 group">
-                        <div class="bg-gray-700 p-3 rounded-lg">
-                            <svg class="w-6 h-6 text-gray-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"></path></svg>
-                        </div>
+                    <div class="bg-gray-800/50 p-3 rounded-xl flex items-center gap-3 shadow-md transition-all transform hover:scale-[1.02] hover:bg-gray-700/80 group">
+                        <a href="${youtubeMusicUrl}" target="_blank" rel="noopener noreferrer" class="bg-gray-700 p-3 rounded-lg">
+                           <svg class="w-6 h-6 text-gray-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"></path></svg>
+                        </a>
                         <div class="flex-grow">
                             <p class="font-semibold text-white">${song.title}</p>
                             <p class="text-sm text-gray-400">${song.artist}</p>
                         </div>
-                        <div class="text-xs text-gray-500 group-hover:text-indigo-400 font-semibold transition-all opacity-0 group-hover:opacity-100 mr-2">
-                            PLAY 
+                        <div class="flex items-center gap-2">
+                           <a href="${youtubeVideoUrl}" target="_blank" rel="noopener noreferrer" title="Search for Video" class="text-gray-400 hover:text-white transition">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                           </a>
+                           <button class="fav-btn ${isFavorited ? 'favorited' : ''}" data-title="${song.title}" data-artist="${song.artist}" title="Add to Favorites">
+                                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.5l1.318-1.182a4.5 4.5 0 116.364 6.364L12 20.25l-7.682-7.682a4.5 4.5 0 010-6.364z"></path></svg>
+                           </button>
                         </div>
-                    </a>
+                    </div>
                 `;
                 container.innerHTML += songHTML;
             });
         } else {
-            container.innerHTML = '<p class="text-gray-400 text-center">No songs found for this selection.</p>';
+            container.innerHTML = `<p class="text-gray-400 text-center">${title === "My Favorites" ? "You haven't added any favorites yet. Click the ❤️ on a song to save it!" : "No songs found for this selection."}</p>`;
         }
+        attachFavoriteListeners();
     }
 
-    function renderSingers(categoryKey, singers) {
+    function renderSingers(singers, title = "2. Choose an Artist") {
+        artistHeading.textContent = title;
         singerListDiv.innerHTML = '';
-        for (const singerKey in singers) {
-            const singer = singers[singerKey];
+        Object.entries(singers).forEach(([singerKey, singerData]) => {
             const button = document.createElement('button');
             button.className = 'singer-btn text-white bg-gray-700/60 hover:bg-gray-600/80 p-3 rounded-xl font-semibold border-2 border-gray-600 transition-all';
-            button.textContent = singer.displayName;
-            button.dataset.categoryKey = categoryKey;
+            button.textContent = singerData.displayName;
             button.dataset.singerKey = singerKey;
+            button.dataset.categoryKey = currentMood; // Store the context
             singerListDiv.appendChild(button);
+        });
+    }
+
+    // --- FEATURE LOGIC ---
+    function handleSearch(query) {
+        if (!query) {
+            resetToPlaceholder();
+            return;
         }
+
+        const lowerCaseQuery = query.toLowerCase();
+        const results = [];
+        Object.values(songDatabase).forEach(mood => {
+            Object.values(mood.singers).forEach(singer => {
+                if (singer.displayName.toLowerCase().includes(lowerCaseQuery)) {
+                    results.push(...singer.songs);
+                } else {
+                    singer.songs.forEach(song => {
+                        if (song.title.toLowerCase().includes(lowerCaseQuery)) {
+                            results.push(song);
+                        }
+                    });
+                }
+            });
+        });
+        
+        // Remove duplicates
+        const uniqueResults = Array.from(new Set(results.map(s => JSON.stringify(s)))).map(s => JSON.parse(s));
+
+        showRecommendations();
+        singerSelectionContainer.classList.add('hidden');
+        renderSongs(uniqueResults, songListDiv, `Search Results for "${query}"`);
+    }
+
+    function toggleFavorite(title, artist) {
+        const songIndex = favorites.findIndex(fav => fav.title === title && fav.artist === artist);
+        if (songIndex > -1) {
+            favorites.splice(songIndex, 1); // Remove from favorites
+        } else {
+            favorites.push({ title, artist }); // Add to favorites
+        }
+        localStorage.setItem('spma_favorites', JSON.stringify(favorites));
+        
+        // If viewing favorites, re-render the list
+        if (favoritesBtn.classList.contains('active')) {
+            showFavorites();
+        }
+    }
+    
+    function showFavorites() {
+        showRecommendations();
+        singerSelectionContainer.classList.add('hidden');
+        renderSongs(favorites, songListDiv, "My Favorites");
+        generateMoreBtn.disabled = true;
+    }
+
+    function showAllArtists() {
+        const allSingers = {};
+        Object.values(songDatabase).forEach(mood => {
+            Object.assign(allSingers, mood.singers);
+        });
+        
+        // Sort artists alphabetically
+        const sortedSingers = Object.entries(allSingers)
+            .sort(([,a],[,b]) => a.displayName.localeCompare(b.displayName))
+            .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+
+        currentMood = 'all'; // Special context for singer clicks
+        showRecommendations();
+        singerSelectionContainer.classList.remove('hidden');
+        songListContainer.classList.add('hidden');
+        renderSingers(sortedSingers, "All Artists");
+    }
+
+    // --- UI HELPER FUNCTIONS ---
+    function resetActiveButtons() {
+        document.querySelectorAll('.mood-btn, .special-btn, .singer-btn').forEach(btn => btn.classList.remove('active'));
+    }
+
+    function showRecommendations() {
+        placeholderDiv.classList.add('hidden');
+        recommendationsDiv.classList.remove('hidden');
+        apiResultsDiv.classList.add('hidden');
+        apiSongListDiv.innerHTML = '';
+    }
+    
+    function resetToPlaceholder() {
+        placeholderDiv.classList.remove('hidden');
+        recommendationsDiv.classList.add('hidden');
+        singerSelectionContainer.classList.add('hidden');
+        resetActiveButtons();
+        searchInput.value = '';
     }
 
     // --- EVENT LISTENERS ---
+    function attachFavoriteListeners() {
+        document.querySelectorAll('.fav-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const { title, artist } = e.currentTarget.dataset;
+                toggleFavorite(title, artist);
+                e.currentTarget.classList.toggle('favorited');
+            });
+        });
+    }
+
     moodButtons.forEach(button => {
         button.addEventListener('click', () => {
+            resetActiveButtons();
+            button.classList.add('active');
+            
             currentMood = button.dataset.mood;
             const selection = songDatabase[currentMood];
             
-            placeholderDiv.classList.add('hidden');
-            recommendationsDiv.classList.remove('hidden');
-            apiResultsDiv.classList.add('hidden');
-            apiSongListDiv.innerHTML = '';
-            generateMoreBtn.disabled = false;
-            
-            moodButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-
+            showRecommendations();
             singerSelectionContainer.classList.remove('hidden');
-            songListContainer.classList.add('hidden'); 
-            
-            document.querySelectorAll('.singer-btn').forEach(btn => btn.classList.remove('active'));
-            renderSingers(currentMood, selection.singers);
+            songListContainer.classList.add('hidden');
+            generateMoreBtn.disabled = false;
+            renderSingers(selection.singers);
         });
     });
 
@@ -297,15 +405,59 @@
         document.querySelectorAll('.singer-btn').forEach(btn => btn.classList.remove('active'));
         button.classList.add('active');
 
-        const { categoryKey, singerKey } = button.dataset;
-        const songs = songDatabase[categoryKey].singers[singerKey].songs;
+        const { singerKey } = button.dataset;
+        let songs = [];
+        let singerName = '';
+
+        if (currentMood === 'all') {
+            // Find the singer across all moods
+            for (const mood of Object.values(songDatabase)) {
+                if (mood.singers[singerKey]) {
+                    songs = mood.singers[singerKey].songs;
+                    singerName = mood.singers[singerKey].displayName;
+                    break;
+                }
+            }
+        } else {
+            songs = songDatabase[currentMood].singers[singerKey].songs;
+            singerName = songDatabase[currentMood].singers[singerKey].displayName;
+        }
         
-        songListContainer.classList.remove('hidden');
-        renderSongs(songs, songListDiv);
+        renderSongs(songs, songListDiv, `Songs by ${singerName}`);
     });
     
+    searchInput.addEventListener('input', (e) => {
+        handleSearch(e.target.value);
+    });
+
+    surpriseBtn.addEventListener('click', () => {
+        const moods = Object.keys(songDatabase);
+        const randomMoodKey = moods[Math.floor(Math.random() * moods.length)];
+        const singers = songDatabase[randomMoodKey].singers;
+        const singerKeys = Object.keys(singers);
+        const randomSingerKey = singerKeys[Math.floor(Math.random() * singerKeys.length)];
+        
+        const randomSinger = singers[randomSingerKey];
+        
+        showRecommendations();
+        singerSelectionContainer.classList.add('hidden');
+        renderSongs(randomSinger.songs, songListDiv, `Surprise! Songs by ${randomSinger.displayName}`);
+    });
+
+    allArtistsBtn.addEventListener('click', () => {
+        resetActiveButtons();
+        allArtistsBtn.classList.add('active');
+        showAllArtists();
+    });
+    
+    favoritesBtn.addEventListener('click', () => {
+        resetActiveButtons();
+        favoritesBtn.classList.add('active');
+        showFavorites();
+    });
+
     generateMoreBtn.addEventListener('click', () => {
-        if (currentMood) {
+        if (currentMood && currentMood !== 'all') {
             const prompt = `Provide a list of 5 popular Indian songs for a "${currentMood}" mood. Include a mix of Bollywood, Punjabi, Haryanvi, or other regional hits if they fit the mood. Format the response as a valid JSON array where each object has only a "title" and "artist" key. Do not include any other text, markdown formatting, or backticks.`;
             getRecommendationsFromAPI(prompt);
         }
@@ -317,7 +469,7 @@
         generateText.textContent = 'Generating...';
         apiResultsDiv.classList.add('hidden');
 
-        const apiKey = "AIzaSyAlGcBjfOulb2JjLlvVk6GKgdSTXALUuRY"; // IMPORTANT: Replace with your actual Gemini API key.
+        const apiKey = "AIzaSyAlGcBjfOulb2JjLlvVk6GKgdSTXALUuRY";
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
         
         const payload = {
@@ -331,17 +483,12 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
-
-            if (!response.ok) {
-                throw new Error(`API error! status: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`API error! status: ${response.status}`);
 
             const result = await response.json();
-            
             if (result.candidates?.[0]?.content?.parts?.[0]?.text) {
-                const jsonText = result.candidates[0].content.parts[0].text;
-                const songs = JSON.parse(jsonText);
-                renderSongs(songs, apiSongListDiv);
+                const songs = JSON.parse(result.candidates[0].content.parts[0].text);
+                renderSongs(songs, apiSongListDiv, "Freshly Generated For You");
                 apiResultsDiv.classList.remove('hidden');
                 if (window.innerWidth < 768) {
                     apiResultsDiv.scrollIntoView({ behavior: 'smooth' });
@@ -360,9 +507,7 @@
         }
     }
     
-    // Run on page load
     initializeUI();
 </script>
-
 </body>
 </html>
