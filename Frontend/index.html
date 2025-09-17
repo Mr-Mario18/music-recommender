@@ -59,7 +59,7 @@
 
         <div class="w-full md:w-1/3 lg:w-2/5 p-6 md:p-8 border-b md:border-b-0 md:border-r border-gray-700 flex flex-col">
             <div class="text-center md:text-left mb-8">
-                <h1 class="text-4xl font-extrabold text-white">Sourabh's Music Arena</h1>
+                <h1 id="main-heading" class="text-4xl font-extrabold text-white">Sourabh's Music Arena</h1>
                 <p class="text-gray-400 mt-2">Discover Indian music tailored to your vibe.</p>
             </div>
 
@@ -114,58 +114,13 @@
     </div>
     
 <script>
-    // --- DATA (Languages merged into moods) ---
-    const songDatabase = {
-        happy: {
-            singers: {
-                mikaSingh: { displayName: 'Mika Singh', songs: [ { title: "Mauja Hi Mauja", artist: "Mika Singh" }, { title: "Aaj Ki Party", artist: "Mika Singh" } ]},
-                shankarMahadevan: { displayName: 'Shankar Mahadevan', songs: [ { title: "Jhoom Barabar Jhoom", artist: "Shankar Mahadevan" }, { title: "Gallan Goodiyaan", artist: "Yashita Sharma, Manish Kumar Tipu" } ]},
-                renukaPanwar: { displayName: 'Renuka Panwar', songs: [ { title: "52 Gaj Ka Daman", artist: "Renuka Panwar" }, { title: "Chatak Matak", artist: "Renuka Panwar" } ] },
-                khesariLal: { displayName: 'Khesari Lal', songs: [ { title: "Le Le Aayi Coca Cola", artist: "Khesari Lal Yadav" } ] }
-            }
-        },
-        sad: {
-            singers: {
-                arijitSingh: { displayName: 'Arijit Singh', songs: [ { title: "Channa Mereya", artist: "Arijit Singh" }, { title: "Agar Tum Saath Ho", artist: "Arijit Singh, Alka Yagnik" }, { title: "Pachtaoge", artist: "Arijit Singh" } ]},
-                mohitChauhan: { displayName: 'Mohit Chauhan', songs: [ { title: "Tujhe Bhula Diya", artist: "Mohit Chauhan" }, { title: "Matargashti", artist: "Mohit Chauhan" } ]},
-                jubinNautiyal: { displayName: 'Jubin Nautiyal', songs: [ { title: "Lut Gaye", artist: "Jubin Nautiyal" }, { title: "Tum Hi Aana", artist: "Jubin Nautiyal" } ]}
-            }
-        },
-        energetic: {
-            singers: {
-                vishalDadlani: { displayName: 'Vishal Dadlani', songs: [ { title: "Malhari", artist: "Vishal Dadlani" }, { title: "Swag Se Swagat", artist: "Vishal Dadlani" } ]},
-                sukhwinderSingh: { displayName: 'Sukhwinder Singh', songs: [ { title: "Chak De! India", artist: "Sukhwinder Singh" }, { title: "Kar Har Maidaan Fateh", artist: "Sukhwinder Singh" } ]},
-                badshah: { displayName: 'Badshah', songs: [ { title: "Kala Chashma", artist: "Badshah, Neha Kakkar" }, { title: "Garmi", artist: "Badshah, Neha Kakkar" } ]},
-                pawanSingh: { displayName: 'Pawan Singh', songs: [ { title: "Lollipop Lagelu", artist: "Pawan Singh" }, { title: "Pudina Ae Haseena", artist: "Pawan Singh" } ]},
-                apDhillon: { displayName: 'AP Dhillon', songs: [ { title: "Brown Munde", artist: "AP Dhillon" }, { title: "Insane", artist: "AP Dhillon" } ]},
-                diljitDosanjh: { displayName: 'Diljit Dosanjh', songs: [ { title: "G.O.A.T.", artist: "Diljit Dosanjh" }, { title: "Proper Patola", artist: "Diljit Dosanjh, Badshah" } ]}
-            }
-        },
-        calm: {
-            singers: {
-                arRahman: { displayName: 'A.R. Rahman', songs: [ { title: "Kun Faya Kun", artist: "A.R. Rahman, Javed Ali" }, { title: "Maa Tujhe Salaam", artist: "A.R. Rahman" } ]},
-                amitTrivedi: { displayName: 'Amit Trivedi', songs: [ { title: "Sham", artist: "Amit Trivedi" }, { title: "Iktara", artist: "Kavita Seth" } ]},
-                luckyAli: { displayName: 'Lucky Ali', songs: [ { title: "O Sanam", artist: "Lucky Ali" }, { title: "Ek Pal Ka Jeena", artist: "Lucky Ali" } ]}
-            }
-        },
-        romantic: {
-            singers: {
-                shreyaGhoshal: { displayName: 'Shreya Ghoshal', songs: [ { title: "Teri Ore", artist: "Shreya Ghoshal" }, { title: "Deewani Mastani", artist: "Shreya Ghoshal" }, { title: "Pal", artist: "Arijit Singh, Shreya Ghoshal" } ]},
-                arijitSingh: { displayName: 'Arijit Singh', songs: [ { title: "Tum Hi Ho", artist: "Arijit Singh" }, { title: "Kesariya", artist: "Arijit Singh" }, { title: "Gerua", artist: "Arijit Singh" } ]},
-                diljitDosanjh: { displayName: 'Diljit Dosanjh', songs: [ { title: "Lover", artist: "Diljit Dosanjh" }, { title: "Do You Know", artist: "Diljit Dosanjh" } ]},
-                dilerKharkiya: { displayName: 'Diler Kharakiya', songs: [ { title: "Moto", artist: "Diler Kharkiya" } ] }
-            }
-        },
-        workout: {
-            singers: {
-                sukhwinderSingh: { displayName: 'Sukhwinder Singh', songs: [ { title: "Sultan (Title Track)", artist: "Sukhwinder Singh" }, { title: "Dard-E-Disco", artist: "Sukhwinder Singh" } ]},
-                vishalDadlani: { displayName: 'Vishal Dadlani', songs: [ { title: "Ziddi Dil", artist: "Vishal Dadlani" }, { title: "Jai Jai Shivshankar", artist: "Vishal Dadlani" } ]},
-                divine: { displayName: 'DIVINE', songs: [ { title: "Mere Gully Mein", artist: "DIVINE, Naezy" }, { title: "Apna Time Aayega", artist: "Ranveer Singh, DIVINE" } ]},
-                shubh: { displayName: 'Shubh', songs: [ { title: "Still Rollin'", artist: "Shubh" }, { title: "Cheques", artist: "Shubh" } ] }
-            }
-        }
-    };
-    
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- GLOBAL VARIABLES ---
+    let songDatabase = {};
+    let currentMood = '';
+
+    // --- STYLES ---
     const moodBtnStyles = {
         happy: 'bg-yellow-500/20 text-yellow-300 border-yellow-500',
         sad: 'bg-blue-500/20 text-blue-300 border-blue-500',
@@ -176,6 +131,7 @@
     };
 
     // --- DOM ELEMENTS ---
+    const mainHeading = document.getElementById('main-heading');
     const moodButtons = document.querySelectorAll('.mood-btn');
     const placeholderDiv = document.getElementById('placeholder');
     const recommendationsDiv = document.getElementById('recommendations');
@@ -189,9 +145,26 @@
     const spinner = document.getElementById('spinner');
     const generateText = document.getElementById('generate-text');
 
-    let currentMood = '';
-    
-    // --- INITIALIZATION ---
+    // --- CORE FUNCTIONS ---
+
+    async function loadDataAndInitialize() {
+        try {
+            mainHeading.textContent = "Loading Music Library...";
+            const response = await fetch('songs.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            songDatabase = await response.json();
+            
+            mainHeading.textContent = "Sourabh's Music Arena";
+            initializeUI();
+            setupEventListeners();
+        } catch (error) {
+            console.error("Failed to load song database:", error);
+            placeholderDiv.innerHTML = `<div class="text-center text-red-400"><h2 class="text-2xl font-bold mb-2">Error Loading Music</h2><p>Could not load the song library. Please check the console for errors and ensure 'songs.json' is in the same folder as your HTML file.</p></div>`;
+        }
+    }
+
     function initializeUI() {
         moodButtons.forEach(button => {
             const mood = button.dataset.mood;
@@ -201,7 +174,6 @@
         generateMoreBtn.disabled = true;
     }
 
-    // --- FUNCTIONS ---
     function renderSongs(songs, container) {
         container.innerHTML = '';
         if (songs && songs.length > 0) {
@@ -217,11 +189,8 @@
                             <p class="font-semibold text-white">${song.title}</p>
                             <p class="text-sm text-gray-400">${song.artist}</p>
                         </div>
-                        <div class="text-xs text-gray-500 group-hover:text-indigo-400 font-semibold transition-all opacity-0 group-hover:opacity-100 mr-2">
-                            PLAY 
-                        </div>
-                    </a>
-                `;
+                        <div class="text-xs text-gray-500 group-hover:text-indigo-400 font-semibold transition-all opacity-0 group-hover:opacity-100 mr-2">PLAY</div>
+                    </a>`;
                 container.innerHTML += songHTML;
             });
         } else {
@@ -242,54 +211,50 @@
         }
     }
 
-    // --- EVENT LISTENERS ---
-    moodButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            currentMood = button.dataset.mood;
-            const selection = songDatabase[currentMood];
-            
-            // UI updates
-            placeholderDiv.classList.add('hidden');
-            recommendationsDiv.classList.remove('hidden');
-            apiResultsDiv.classList.add('hidden');
-            apiSongListDiv.innerHTML = '';
-            generateMoreBtn.disabled = false;
-            
-            moodButtons.forEach(btn => btn.classList.remove('active'));
+    function setupEventListeners() {
+        moodButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                currentMood = button.dataset.mood;
+                const selection = songDatabase[currentMood];
+                
+                placeholderDiv.classList.add('hidden');
+                recommendationsDiv.classList.remove('hidden');
+                apiResultsDiv.classList.add('hidden');
+                apiSongListDiv.innerHTML = '';
+                generateMoreBtn.disabled = false;
+                
+                moodButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                singerSelectionContainer.classList.remove('hidden');
+                songListContainer.classList.add('hidden'); 
+                
+                document.querySelectorAll('.singer-btn').forEach(btn => btn.classList.remove('active'));
+                renderSingers(currentMood, selection.singers);
+            });
+        });
+
+        singerListDiv.addEventListener('click', (event) => {
+            const button = event.target.closest('.singer-btn');
+            if (!button) return;
+
+            document.querySelectorAll('.singer-btn').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
 
-            // Show singer selection
-            singerSelectionContainer.classList.remove('hidden');
-            songListContainer.classList.add('hidden'); 
+            const { categoryKey, singerKey } = button.dataset;
+            const songs = songDatabase[categoryKey].singers[singerKey].songs;
             
-            document.querySelectorAll('.singer-btn').forEach(btn => btn.classList.remove('active'));
-            
-            renderSingers(currentMood, selection.singers);
+            songListContainer.classList.remove('hidden');
+            renderSongs(songs, songListDiv);
         });
-    });
-
-    singerListDiv.addEventListener('click', (event) => {
-        const button = event.target.closest('.singer-btn');
-        if (!button) return;
-
-        // UI updates for singer selection
-        document.querySelectorAll('.singer-btn').forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-
-        const { categoryKey, singerKey } = button.dataset;
-        const songs = songDatabase[categoryKey].singers[singerKey].songs;
         
-        songListContainer.classList.remove('hidden');
-        renderSongs(songs, songListDiv);
-    });
-    
-    generateMoreBtn.addEventListener('click', () => {
-        if (currentMood) {
-            // Updated prompt to be more inclusive of regional music
-            const prompt = `Provide a list of 5 popular Indian songs for a "${currentMood}" mood. Include a mix of Bollywood, Punjabi, Haryanvi, or other regional hits if they fit the mood. Format the response as a valid JSON array where each object has only a "title" and "artist" key. Do not include any other text, markdown formatting, or backticks.`;
-            getRecommendationsFromAPI(prompt);
-        }
-    });
+        generateMoreBtn.addEventListener('click', () => {
+            if (currentMood) {
+                const prompt = `Provide a list of 5 popular Indian songs for a "${currentMood}" mood. Include a mix of Bollywood, Punjabi, Haryanvi, or other regional hits if they fit the mood. Format the response as a valid JSON array where each object has only a "title" and "artist" key. Do not include any other text, markdown formatting, or backticks.`;
+                getRecommendationsFromAPI(prompt);
+            }
+        });
+    }
 
     async function getRecommendationsFromAPI(prompt) {
         generateMoreBtn.disabled = true;
@@ -302,9 +267,7 @@
         
         const payload = {
             contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: {
-                responseMimeType: "application/json",
-            }
+            generationConfig: { responseMimeType: "application/json" }
         };
         
         try {
@@ -315,8 +278,7 @@
             });
 
             if (!response.ok) {
-                const errorBody = await response.text();
-                throw new Error(`API error! status: ${response.status}. Body: ${errorBody}`);
+                throw new Error(`API error! status: ${response.status}`);
             }
 
             const result = await response.json();
@@ -330,12 +292,11 @@
                     apiResultsDiv.scrollIntoView({ behavior: 'smooth' });
                 }
             } else {
-                throw new Error("Invalid response structure from API. No song text found.");
+                throw new Error("Invalid response structure from API.");
             }
-
         } catch (error) {
-            console.error("Failed to fetch or parse from Gemini API:", error);
-            apiSongListDiv.innerHTML = `<p class="text-red-400 text-center p-4 bg-red-500/10 rounded-lg">Could not generate songs. The AI might be busy, or the API key is invalid. Please try again later.</p>`;
+            console.error("Failed to fetch from Gemini API:", error);
+            apiSongListDiv.innerHTML = `<p class="text-red-400 text-center p-4 bg-red-500/10 rounded-lg">Could not generate songs. Check API key or try again later.</p>`;
             apiResultsDiv.classList.remove('hidden');
         } finally {
             generateMoreBtn.disabled = false;
@@ -344,8 +305,9 @@
         }
     }
     
-    // Run on page load
-    initializeUI();
+    // --- START THE APP ---
+    loadDataAndInitialize();
+});
 </script>
 
 </body>
